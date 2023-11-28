@@ -9,8 +9,21 @@ class Counter:
         self.servedTicket = None
 class Queue:
     def __init__(self):
-        self.numbers_array = [1,2,3,4,5,6]
-        self.counters_array = [Counter(3),Counter(5)]
+        self.queue = [Person(1,None),Person(2,None),Person(3,None),Person(4,None),Person(5,None),Person(6,None)]
+        self.counters = [Counter(3),Counter(5)]
+    def ticketsInQueue(self):
+        return  [person.ticketNumber for person in self.queue if person.ticketNumber is not None]
+
+class QueueToSendInfo:
+    def __init__(self, queue):
+        self.tickets = queue.ticketsInQueue()
+        self.counters = queue.counters
+
+
+class Person:
+    def __init__(self, ticketNumber, connection):
+        self.ticketNumber = ticketNumber
+        self.connection = connection
 
 class QueueEncoder(JSONEncoder):
     def default(self, o):
@@ -25,6 +38,8 @@ async def handle_websocket(websocket, path):
     print(f"Client connected from {websocket.remote_address}")
 
     try:
+        response = {'action': 'sent_queue_info', 'queue': json.loads(QueueEncoder().encode(QueueToSendInfo(queue_1)))}
+        await websocket.send(json.dumps(response))
 
         while True:
             message = await websocket.recv()
@@ -45,24 +60,24 @@ async def handle_websocket(websocket, path):
 
                     elif action == 'add_number':
                         # Add a number one larger than the largest number to the array
-                        new_number = max(queue_1.numbers_array) + 1
-                        queue_1.numbers_array.append(new_number)
+                        new_number = queue_1.ticketsInQueue()[-1] + 1
+                        queue_1.queue.append(Person(new_number, websocket))
 
                         # Send the new number to the client
                         response = {'action': 'added_number', 'number': new_number}
                         await websocket.send(json.dumps(response))
 
                         # Broadcast the updated array to all connected clients
-                        response = {'action': 'update_numbers', 'numbers': queue_1.numbers_array}
+                        response = {'action': 'update_numbers', 'numbers': queue_1.ticketsInQueue()}
                         await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
 
                     elif action == 'leave_queue':
 
                         if 'number' in data:
-                            queue_1.numbers_array.remove(data['number'])
+                            del queue_1.queue[queue_1.ticketsInQueue().index(data['number'])]
 
                         # Broadcast the updated array to all connected clients
-                        response = {'action': 'update_numbers', 'numbers': queue_1.numbers_array}
+                        response = {'action': 'update_numbers', 'numbers': queue_1.ticketsInQueue()}
                         await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
 
 
