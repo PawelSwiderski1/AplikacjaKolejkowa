@@ -170,6 +170,8 @@ struct Queue {
 
             if let countersArrayDict = dictionary["counters"] as? [[String: Any]] {
                 self.countersArray = countersArrayDict.compactMap { dict in
+                    print("got this: \(dict)")
+
                     guard let idNumber = dict["idNumber"] as? Int else {
                         return nil
                     }

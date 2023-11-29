@@ -3,21 +3,40 @@ import json
 import websockets
 from json import JSONEncoder
 
+
 class Counter:
-    def __init__(self, idNumber):
+    def __init__(self, idNumber, servedTicket = None):
         self.idNumber = idNumber
-        self.servedTicket = None
+        self.servedTicket = servedTicket
+
+
+
+
 class Queue:
     def __init__(self):
-        self.queue = [Person(1,None),Person(2,None),Person(3,None),Person(4,None),Person(5,None),Person(6,None)]
-        self.counters = [Counter(3),Counter(5)]
+        self.queue = [Person(1, None), Person(2, None), Person(3, None), Person(4, None), Person(5, None),
+                      Person(6, None)]
+        self.counters = [Counter(3), Counter(5)]
+
     def ticketsInQueue(self):
-        return  [person.ticketNumber for person in self.queue if person.ticketNumber is not None]
+        return [person.ticketNumber for person in self.queue if person.ticketNumber is not None]
+
+    def find_counter_by_id(self, id_number):
+        for counter in self.counters:
+            if counter.idNumber == id_number:
+                return counter
+        return None
+
 
 class QueueToSendInfo:
     def __init__(self, queue):
         self.tickets = queue.ticketsInQueue()
-        self.counters = queue.counters
+        self.counters = []
+
+        for counter in queue.counters:
+            new_counter = Counter(counter.idNumber,
+                                  counter.servedTicket.ticketNumber if counter.servedTicket else None)
+            self.counters.append(new_counter)
 
 
 class Person:
@@ -25,12 +44,15 @@ class Person:
         self.ticketNumber = ticketNumber
         self.connection = connection
 
+
 class QueueEncoder(JSONEncoder):
     def default(self, o):
         return o.__dict__
 
+
 queue_1 = Queue()
 connections = set()
+
 
 async def handle_websocket(websocket, path):
     global queue_1
@@ -61,7 +83,8 @@ async def handle_websocket(websocket, path):
 
                             if action == 'get_queue_info':
                                 # Send the current array to the client
-                                response = {'action': 'sent_queue_info', 'queue': json.loads(QueueEncoder().encode(queue_1))}
+                                response = {'action': 'sent_queue_info',
+                                            'queue': json.loads(QueueEncoder().encode(queue_1))}
                                 await websocket.send(json.dumps(response))
 
                             elif action == 'add_number':
@@ -100,7 +123,8 @@ async def handle_websocket(websocket, path):
                                     queue_1.counters.append(newCounter)
 
                                     # Broadcast the updated counters to all connected clients
-                                    response = {'action': 'update_counters', 'new_counters': json.loads(QueueEncoder().encode(queue_1.counters))}
+                                    response = {'action': 'update_counters',
+                                                'new_counters': json.loads(QueueEncoder().encode(queue_1.counters))}
                                     await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
 
                             elif action == 'close_counter':
@@ -108,15 +132,28 @@ async def handle_websocket(websocket, path):
                                 if 'id_number' in data:
                                     idNumberToClose = data['id_number']
 
-
-                                    queue_1.counters = [counter for counter in queue_1.counters if counter.idNumber != idNumberToClose]
-
+                                    queue_1.counters = [counter for counter in queue_1.counters if
+                                                        counter.idNumber != idNumberToClose]
 
                                     # Broadcast the updated counters to all connected clients
-                                    response = {'action': 'update_counters', 'new_counters': json.loads(QueueEncoder().encode(queue_1.counters))}
+                                    response = {'action': 'update_counters',
+                                                'new_counters': json.loads(QueueEncoder().encode(queue_1.counters))}
                                     await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
 
+                            elif action == 'serve_next_number':
 
+                                if 'id_number' in data:
+
+                                    idNumber = data['id_number']
+                                    print(queue_1.counters[1].servedTicket)
+                                    queue_1.find_counter_by_id(idNumber).servedTicket = queue_1.queue[0]
+                                    del queue_1.queue[0]
+                                    print(queue_1.counters[1].servedTicket)
+
+
+                                    response = {'action': 'sent_queue_info',
+                                                'queue': json.loads(QueueEncoder().encode(QueueToSendInfo(queue_1)))}
+                                    await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
 
 
             except json.JSONDecodeError:
