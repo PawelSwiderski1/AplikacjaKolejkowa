@@ -100,7 +100,20 @@ async def handle_websocket(websocket, path):
                                     queue_1.counters.append(newCounter)
 
                                     # Broadcast the updated counters to all connected clients
-                                    response = {'action': 'update_counters', 'counters': json.loads(QueueEncoder().encode(newCounter))}
+                                    response = {'action': 'update_counters', 'new_counters': json.loads(QueueEncoder().encode(queue_1.counters))}
+                                    await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
+
+                            elif action == 'close_counter':
+
+                                if 'id_number' in data:
+                                    idNumberToClose = data['id_number']
+
+
+                                    queue_1.counters = [counter for counter in queue_1.counters if counter.idNumber != idNumberToClose]
+
+
+                                    # Broadcast the updated counters to all connected clients
+                                    response = {'action': 'update_counters', 'new_counters': json.loads(QueueEncoder().encode(queue_1.counters))}
                                     await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
 
 

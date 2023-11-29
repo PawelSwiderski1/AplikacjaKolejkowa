@@ -53,19 +53,19 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
     func sendGetQueueInfoMessage() {
         print("sent info")
             // Send a message to the server to add a number
-            let message = ["action": "get_queue_info"]
+        let message = ["client_type": "person", "action": "get_queue_info"]
             sendJSONMessage(message)
         }
     
     func sendAddNumberMessage() {
             // Send a message to the server to add a number
-            let message = ["action": "add_number"]
+            let message = ["client_type": "person", "action": "add_number"]
             sendJSONMessage(message)
         }
     
     func sendLeaveQueueMessage() {
             // Send a message to the server to add a number
-        let message = ["action": "leave_queue", "number": usersNumber!] as [String : Any]
+        let message = ["client_type": "person", "action": "leave_queue", "number": usersNumber!] as [String : Any]
             sendJSONMessage(message)
         usersNumber = nil
         }
@@ -114,12 +114,13 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
                                 queue.numbersArray = numbers
                             }
                         }
-//                        else if action == "update_counters" {
-//                            // Update the counters array
-//                            if let counters = json["counters"] as? [Int] {
-//                                queue.countersArray = counters
-//                            }
-//                        }
+                        else if action == "update_counters" {
+                            // Update the counters array
+                            if let countersJson = json["new_counters"] as? [[String: Any]] {
+                                print("get in")
+                                queue.updateCounters(newCountersJSON: countersJson)
+                            }
+                        }
                         else if action == "added_number" {
                             // Get users ticket
                             if let newNumber = json["number"] as? Int {
@@ -144,9 +145,18 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
 struct Counter {
     var servedTicket: Int? = nil
     let idNumber: Int
-    init(idNumber: Int){
+    init(servedTicket: Int?, idNumber: Int){
+        self.servedTicket = servedTicket
         self.idNumber = idNumber
     }
+    init?(dictionary: [String: Any]) {
+           guard let idNumber = dictionary["idNumber"] as? Int else {
+               return nil // Ensure idNumber is present, otherwise initialization fails
+           }
+
+           let servedTicket = dictionary["servedTicket"] as? Int
+           self.init(servedTicket: servedTicket, idNumber: idNumber)
+       }
 }
 
 struct Queue {
@@ -163,12 +173,21 @@ struct Queue {
                     guard let idNumber = dict["idNumber"] as? Int else {
                         return nil
                     }
-
-                    var counter = Counter(idNumber: idNumber)
-                    counter.servedTicket = dict["servedTicket"] as? Int
+                    
+                    let servedTicket = dict["servedTicket"] as? Int
+                     
+                    let counter = Counter(servedTicket: servedTicket, idNumber: idNumber)
                     return counter
                 }
             }
+        }
+    
+    mutating func updateCounters(newCountersJSON: [[String: Any]]) {
+        var newCounters: [Counter] = []
+            for counterDict in newCountersJSON{
+                newCounters.append(Counter(dictionary: counterDict)!)
+            }
+        countersArray = newCounters
         }
 }
 
@@ -177,7 +196,7 @@ extension PreviewProvider{
     static var PreviewWebSocketManager: WebSocketManager{
         let manager = WebSocketManager()
         manager.queue.numbersArray = [1,2,3,4,5,6,7,8,9]
-        manager.queue.countersArray = [Counter(idNumber: 3), Counter(idNumber: 5)]
+        manager.queue.countersArray = [Counter(servedTicket: 1, idNumber: 3), Counter(servedTicket: 2, idNumber: 5)]
         manager.usersNumber = 7
         return manager
     }
