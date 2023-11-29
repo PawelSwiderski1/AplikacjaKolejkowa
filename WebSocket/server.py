@@ -49,36 +49,61 @@ async def handle_websocket(websocket, path):
             try:
                 data = json.loads(message)
 
-                # Check if the message contains an 'action' key
-                if 'action' in data:
-                    action = data['action']
+                # Check if the message contains a 'client_type' key
+                if 'client_type' in data:
+                    client_type = data['client_type']
 
-                    if action == 'get_queue_info':
-                        # Send the current array to the client
-                        response = {'action': 'sent_queue_info', 'queue': json.loads(QueueEncoder().encode(queue_1))}
-                        await websocket.send(json.dumps(response))
+                    # Check if message comes from a person standing in queue (using the app)
+                    if client_type == 'person':
+                        # Check if the message contains an 'action' key
+                        if 'action' in data:
+                            action = data['action']
 
-                    elif action == 'add_number':
-                        # Add a number one larger than the largest number to the array
-                        new_number = queue_1.ticketsInQueue()[-1] + 1
-                        queue_1.queue.append(Person(new_number, websocket))
+                            if action == 'get_queue_info':
+                                # Send the current array to the client
+                                response = {'action': 'sent_queue_info', 'queue': json.loads(QueueEncoder().encode(queue_1))}
+                                await websocket.send(json.dumps(response))
 
-                        # Send the new number to the client
-                        response = {'action': 'added_number', 'number': new_number}
-                        await websocket.send(json.dumps(response))
+                            elif action == 'add_number':
+                                # Add a number one larger than the largest number to the array
+                                new_number = queue_1.ticketsInQueue()[-1] + 1
+                                queue_1.queue.append(Person(new_number, websocket))
 
-                        # Broadcast the updated array to all connected clients
-                        response = {'action': 'update_numbers', 'numbers': queue_1.ticketsInQueue()}
-                        await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
+                                # Send the new number to the client
+                                response = {'action': 'added_number', 'number': new_number}
+                                await websocket.send(json.dumps(response))
 
-                    elif action == 'leave_queue':
+                                # Broadcast the updated array to all connected clients
+                                response = {'action': 'update_numbers', 'numbers': queue_1.ticketsInQueue()}
+                                await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
 
-                        if 'number' in data:
-                            del queue_1.queue[queue_1.ticketsInQueue().index(data['number'])]
+                            elif action == 'leave_queue':
 
-                        # Broadcast the updated array to all connected clients
-                        response = {'action': 'update_numbers', 'numbers': queue_1.ticketsInQueue()}
-                        await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
+                                if 'number' in data:
+                                    del queue_1.queue[queue_1.ticketsInQueue().index(data['number'])]
+
+                                # Broadcast the updated array to all connected clients
+                                response = {'action': 'update_numbers', 'numbers': queue_1.ticketsInQueue()}
+                                await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
+
+                    # Check if message comes from an operator, person at the counter (using web page)
+                    elif client_type == 'operator':
+                        # Check if the message contains an 'action' key
+                        if 'action' in data:
+                            action = data['action']
+
+                            if action == 'open_counter':
+
+                                if 'id_number' in data:
+                                    idNumber = data['id_number']
+                                    newCounter = Counter(idNumber)
+                                    queue_1.counters.append(newCounter)
+
+                                    # Broadcast the updated counters to all connected clients
+                                    response = {'action': 'update_counters', 'counters': json.loads(QueueEncoder().encode(newCounter))}
+                                    await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
+
+
 
 
             except json.JSONDecodeError:
