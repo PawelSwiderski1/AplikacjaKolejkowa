@@ -22,7 +22,7 @@ struct ContentView: View {
                 Text("OBECNIE OBSŁUGIWANE NUMERKI")
                 HStack{
                     ForEach((1...webSocketManager.queue.countersArray.count), id: \.self){index in
-                        Text("\(webSocketManager.queue.countersArray[index - 1].servedTicket ?? 0)")
+                        Text("\(webSocketManager.queue.countersArray[index - 1].servedTicket ?? "0")")
                             .font(.system(size: 20))
                             .frame(width: 20, height: 20)
                             .fixedSize(horizontal: false, vertical: true)

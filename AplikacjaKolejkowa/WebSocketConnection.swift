@@ -153,9 +153,9 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
 }
 
 struct Counter {
-    var servedTicket: Int? = nil
+    var servedTicket: String? = nil
     let idNumber: Int
-    init(servedTicket: Int?, idNumber: Int){
+    init(servedTicket: String?, idNumber: Int){
         self.servedTicket = servedTicket
         self.idNumber = idNumber
     }
@@ -164,7 +164,7 @@ struct Counter {
                return nil // Ensure idNumber is present, otherwise initialization fails
            }
 
-           let servedTicket = dictionary["servedTicket"] as? Int
+           let servedTicket = dictionary["servedTicket"] as? String
            self.init(servedTicket: servedTicket, idNumber: idNumber)
        }
 }
@@ -186,7 +186,7 @@ struct Queue {
                         return nil
                     }
                     
-                    let servedTicket = dict["servedTicket"] as? Int
+                    let servedTicket = dict["servedTicket"] as? String
                      
                     let counter = Counter(servedTicket: servedTicket, idNumber: idNumber)
                     return counter
@@ -208,7 +208,7 @@ extension PreviewProvider{
     static var PreviewWebSocketManager: WebSocketManager{
         let manager = WebSocketManager()
         manager.queue.ticketsInQueue = ["1","2","3","4","5","6","7","8","9"]
-        manager.queue.countersArray = [Counter(servedTicket: 1, idNumber: 3), Counter(servedTicket: 2, idNumber: 5)]
+        manager.queue.countersArray = [Counter(servedTicket: "1", idNumber: 3), Counter(servedTicket: "2", idNumber: 5)]
         manager.usersNumber = "7"
         return manager
     }

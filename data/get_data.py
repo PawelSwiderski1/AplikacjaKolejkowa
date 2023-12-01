@@ -1,6 +1,8 @@
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
+import json
+import csv
 def office_names_and_actions():
     url = 'https://rezerwacje.um.warszawa.pl/'
 
@@ -20,5 +22,13 @@ def office_names_and_actions():
     for df in dfs:
         if (df.columns.tolist()[0] == 'Nazwa grupy'):
             action_names.append(df.iloc[:, 0].tolist())
-    
-    return dict(zip(office_names, action_names))
+
+    my_dict = dict(zip(office_names, action_names))
+    # with open('mycsvfile.csv', 'w') as f:  # You will need 'wb' mode in Python 2.x
+    #     w = csv.DictWriter(f, my_dict.keys())
+    #     w.writeheader()
+    #     w.writerow(my_dict)
+    with open("Urzedy.json", "w") as outfile:
+        json.dump(my_dict, outfile)
+
+office_names_and_actions()

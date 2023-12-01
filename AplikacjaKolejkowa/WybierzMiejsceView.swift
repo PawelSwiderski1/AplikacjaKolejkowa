@@ -31,6 +31,7 @@ struct WybierzMiejsceView: View {
             
             List(names.filter({ searchText.isEmpty ? true : $0.name.contains(searchText) })) { item in
                 Text(item.name)
+                    .listRowBackground(Color(.systemGray6))
                     .onTapGesture {
                         webSocketManager.setupWebSocket()
                         searchText = item.name
@@ -38,9 +39,15 @@ struct WybierzMiejsceView: View {
                         self.presentation.wrappedValue.dismiss()
                     }
             }
+            .background(Color(hex: "CBE2E2"))
+            .scrollContentBackground(.hidden)
+
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(hex: "CBE2E2"))
         .padding()
-        .padding(.top, 30)
+        .padding(.top, 15)
+        .background(Color(hex: "CBE2E2"))
     }
 }
 

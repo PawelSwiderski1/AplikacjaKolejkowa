@@ -16,7 +16,9 @@ struct CustomButtonStyle: ButtonStyle {
             .padding()
             .background(color)
             .foregroundStyle(.black)
-            .clipShape(Capsule())
+            .clipShape(RoundedRectangle(cornerRadius: 7))
+            .shadow(radius: 3)
+
 
     }
 }

@@ -3,6 +3,31 @@ import json
 import websockets
 from json import JSONEncoder
 
+# Specify the path to Json file with Offices infomrations
+json_file_path = 'Urzedy.json'
+
+
+# Read the JSON file
+with open(json_file_path, 'r') as file:
+    offices_information = json.load(file)
+
+
+# This is an example of server for Urząd Dzielnicy Ursynów
+office_name = 'Urząd Dzielnicy Ursynów'
+office_matters = offices_information[office_name]
+
+class Office:
+    def __init__(self, name, matters):
+        self.name = name
+        self.matters = matters
+        self.queues = self.generateQueues()
+
+    def generateQueues(self):
+        queues = []
+        for matter in self.matters:
+            queues.append(Queue(matter))
+        return queues
+
 
 class Counter:
     def __init__(self, idNumber, servedTicket=None):
@@ -11,10 +36,12 @@ class Counter:
 
 
 class Queue:
-    def __init__(self):
+    def __init__(self, matter):
         self.queue = [Person("1", None), Person("2", None), Person("3", None), Person("4", None), Person("5", None),
                       Person("6", None)]
         self.counters = [Counter(3), Counter(5)]
+        self.matter = matter
+
 
     def ticketsInQueue(self):
         return [person.ticketNumber for person in self.queue if person.ticketNumber is not None]
@@ -48,7 +75,8 @@ class QueueEncoder(JSONEncoder):
         return o.__dict__
 
 
-queue_1 = Queue()
+office = Office(office_name, office_matters)
+queue_1 = office.queues[0]
 connections = set()
 
 
