@@ -24,6 +24,8 @@
 		7A69E5202B12BB98004B50FB /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E51F2B12BB98004B50FB /* StartView.swift */; };
 		7A69E5232B135B1C004B50FB /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 7A69E5222B135B1C004B50FB /* SocketIO */; };
 		7A69E5252B135B58004B50FB /* WebSocketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E5242B135B58004B50FB /* WebSocketConnection.swift */; };
+		7A8FF11A2B18BA0400D3594A /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 7A8FF1192B18BA0400D3594A /* PopupView */; };
+		7A8FF11C2B18C0DC00D3594A /* TicketShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8FF11B2B18C0DC00D3594A /* TicketShape.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,7 @@
 		7A69E51D2B12B81C004B50FB /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		7A69E51F2B12BB98004B50FB /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		7A69E5242B135B58004B50FB /* WebSocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnection.swift; sourceTree = "<group>"; };
+		7A8FF11B2B18C0DC00D3594A /* TicketShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketShape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A8FF11A2B18BA0400D3594A /* PopupView in Frameworks */,
 				7A69E5232B135B1C004B50FB /* SocketIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,6 +93,7 @@
 				7A69E51D2B12B81C004B50FB /* SearchBar.swift */,
 				7A69E51F2B12BB98004B50FB /* StartView.swift */,
 				7A69E5242B135B58004B50FB /* WebSocketConnection.swift */,
+				7A8FF11B2B18C0DC00D3594A /* TicketShape.swift */,
 			);
 			path = AplikacjaKolejkowa;
 			sourceTree = "<group>";
@@ -131,6 +136,7 @@
 			name = AplikacjaKolejkowa;
 			packageProductDependencies = (
 				7A69E5222B135B1C004B50FB /* SocketIO */,
+				7A8FF1192B18BA0400D3594A /* PopupView */,
 			);
 			productName = AplikacjaKolejkowa;
 			productReference = 7A69E4EB2B120772004B50FB /* AplikacjaKolejkowa.app */;
@@ -162,6 +168,7 @@
 			mainGroup = 7A69E4E22B120772004B50FB;
 			packageReferences = (
 				7A69E5212B135B1C004B50FB /* XCRemoteSwiftPackageReference "socket" */,
+				7A8FF1182B18BA0400D3594A /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 7A69E4EC2B120772004B50FB /* Products */;
 			projectDirPath = "";
@@ -202,6 +209,7 @@
 				7A69E4F12B120772004B50FB /* ContentView.swift in Sources */,
 				7A69E5032B1223B8004B50FB /* WybierzMiejsceView.swift in Sources */,
 				7A69E4EF2B120772004B50FB /* AplikacjaKolejkowaApp.swift in Sources */,
+				7A8FF11C2B18C0DC00D3594A /* TicketShape.swift in Sources */,
 				7A69E50D2B12476E004B50FB /* DropdownMenuList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,6 +426,14 @@
 				kind = branch;
 			};
 		};
+		7A8FF1182B18BA0400D3594A /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -425,6 +441,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7A69E5212B135B1C004B50FB /* XCRemoteSwiftPackageReference "socket" */;
 			productName = SocketIO;
+		};
+		7A8FF1192B18BA0400D3594A /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7A8FF1182B18BA0400D3594A /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

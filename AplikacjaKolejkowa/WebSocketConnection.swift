@@ -14,11 +14,15 @@ import SwiftUI
 class WebSocketManager: WebSocketDelegate, ObservableObject {
     var socket: WebSocket!
     @Published var queue = Queue()
-    @Published var usersNumber: Int? = nil
+    @Published var usersNumber: String? = nil
+    @Published var counterToGo: Int? = nil
+    @Published var showPopup: Bool = false
 
     var usersPlace: Int? {
         if (usersNumber != nil){
-            return 1 + queue.numbersArray.firstIndex(where: { $0 == usersNumber })!
+            if let place = queue.ticketsInQueue.firstIndex(where: { $0 == usersNumber }){
+                return  place + 1
+            }
         }
         return nil
     }
@@ -45,8 +49,8 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
 
 //    func sendUpdateArrayMessage() {
 //        // Send a message to update the array on the server
-//        let newNumbersArray = [6, 7, 8, 9, 10]
-//        let message = ["action": "update_numbers", "numbers": newNumbersArray] as [String : Any]
+//        let newticketsInQueue = [6, 7, 8, 9, 10]
+//        let message = ["action": "update_numbers", "numbers": newticketsInQueue] as [String : Any]
 //        sendJSONMessage(message)
 //        objectWillChange.send()
 //    }
@@ -110,22 +114,28 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
                        }
                         else if action == "update_numbers" {
                             // Update the numbers array
-                            if let numbers = json["numbers"] as? [Int] {
-                                queue.numbersArray = numbers
+                            if let numbers = json["numbers"] as? [String] {
+                                queue.ticketsInQueue = numbers
                             }
                         }
                         else if action == "update_counters" {
                             // Update the counters array
                             if let countersJson = json["new_counters"] as? [[String: Any]] {
-                                print("get in")
                                 queue.updateCounters(newCountersJSON: countersJson)
                             }
                         }
                         else if action == "added_number" {
                             // Get users ticket
-                            if let newNumber = json["number"] as? Int {
+                            if let newNumber = json["number"] as? String {
                                 usersNumber = newNumber
-                                print("new_number")
+                            }
+                        }
+                        
+                        else if action == "go_to_counter" {
+                            // Get counter you are to go to
+                            if let counter = json["counter_id"] as? Int {
+                                counterToGo = counter
+                                showPopup = true
                             }
                         }
                     }
@@ -160,12 +170,12 @@ struct Counter {
 }
 
 struct Queue {
-    var numbersArray: [Int] = []
+    var ticketsInQueue: [String] = []
     var countersArray: [Counter] = []
     
     mutating func update(with dictionary: [String: Any]) {
-            if let numbersArray = dictionary["tickets"] as? [Int] {
-                self.numbersArray = numbersArray
+            if let ticketsInQueue = dictionary["tickets"] as? [String] {
+                self.ticketsInQueue = ticketsInQueue
             }
 
             if let countersArrayDict = dictionary["counters"] as? [[String: Any]] {
@@ -197,9 +207,9 @@ extension PreviewProvider{
     
     static var PreviewWebSocketManager: WebSocketManager{
         let manager = WebSocketManager()
-        manager.queue.numbersArray = [1,2,3,4,5,6,7,8,9]
+        manager.queue.ticketsInQueue = ["1","2","3","4","5","6","7","8","9"]
         manager.queue.countersArray = [Counter(servedTicket: 1, idNumber: 3), Counter(servedTicket: 2, idNumber: 5)]
-        manager.usersNumber = 7
+        manager.usersNumber = "7"
         return manager
     }
 }

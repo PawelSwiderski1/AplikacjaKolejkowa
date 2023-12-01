@@ -5,17 +5,15 @@ from json import JSONEncoder
 
 
 class Counter:
-    def __init__(self, idNumber, servedTicket = None):
+    def __init__(self, idNumber, servedTicket=None):
         self.idNumber = idNumber
         self.servedTicket = servedTicket
 
 
-
-
 class Queue:
     def __init__(self):
-        self.queue = [Person(1, None), Person(2, None), Person(3, None), Person(4, None), Person(5, None),
-                      Person(6, None)]
+        self.queue = [Person("1", None), Person("2", None), Person("3", None), Person("4", None), Person("5", None),
+                      Person("6", None)]
         self.counters = [Counter(3), Counter(5)]
 
     def ticketsInQueue(self):
@@ -89,7 +87,7 @@ async def handle_websocket(websocket, path):
 
                             elif action == 'add_number':
                                 # Add a number one larger than the largest number to the array
-                                new_number = queue_1.ticketsInQueue()[-1] + 1
+                                new_number = str(int(queue_1.ticketsInQueue()[-1]) + 1)
                                 queue_1.queue.append(Person(new_number, websocket))
 
                                 # Send the new number to the client
@@ -118,9 +116,9 @@ async def handle_websocket(websocket, path):
                             if action == 'open_counter':
 
                                 if 'id_number' in data:
-                                    idNumber = data['id_number']
-                                    newCounter = Counter(idNumber)
-                                    queue_1.counters.append(newCounter)
+                                    id_number = data['id_number']
+                                    new_counter = Counter(id_number)
+                                    queue_1.counters.append(new_counter)
 
                                     # Broadcast the updated counters to all connected clients
                                     response = {'action': 'update_counters',
@@ -130,10 +128,10 @@ async def handle_websocket(websocket, path):
                             elif action == 'close_counter':
 
                                 if 'id_number' in data:
-                                    idNumberToClose = data['id_number']
+                                    id_number_to_close = data['id_number']
 
                                     queue_1.counters = [counter for counter in queue_1.counters if
-                                                        counter.idNumber != idNumberToClose]
+                                                        counter.idNumber != id_number_to_close]
 
                                     # Broadcast the updated counters to all connected clients
                                     response = {'action': 'update_counters',
@@ -143,18 +141,19 @@ async def handle_websocket(websocket, path):
                             elif action == 'serve_next_number':
 
                                 if 'id_number' in data:
-
-                                    idNumber = data['id_number']
-                                    print(queue_1.counters[1].servedTicket)
-                                    queue_1.find_counter_by_id(idNumber).servedTicket = queue_1.queue[0]
+                                    id_number = data['id_number']
+                                    new_person = queue_1.queue[0]
+                                    queue_1.find_counter_by_id(id_number).servedTicket = queue_1.queue[0]
                                     del queue_1.queue[0]
-                                    print(queue_1.counters[1].servedTicket)
-
 
                                     response = {'action': 'sent_queue_info',
                                                 'queue': json.loads(QueueEncoder().encode(QueueToSendInfo(queue_1)))}
                                     await asyncio.gather(*[client.send(json.dumps(response)) for client in connections])
 
+                                    if new_person.connection:
+                                        response = {'action': 'go_to_counter',
+                                                    'counter_id': id_number}
+                                        await new_person.connection.send(json.dumps(response))
 
             except json.JSONDecodeError:
                 print("Invalid JSON format")
