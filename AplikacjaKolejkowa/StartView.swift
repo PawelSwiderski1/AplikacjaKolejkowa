@@ -19,76 +19,110 @@ struct StartView: View {
 
     var body: some View {
         let _ = print(webSocketManager.queue.ticketsInQueue)
-        NavigationStack{
-            VStack{
-                Spacer()
+        GeometryReader { geometry in
+            NavigationStack{
+                VStack{
+                    HStack{
+                        Text("APLIKACJA KOLEJKOWA")
+                            .font(.custom("Lovelo-Black",size: 20))
+                            .foregroundStyle(.black)
+                            //.fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
-                Text("Wybierz gdzie chcesz stanąć w kolejce")
-                    .font(.system(size: 20))
-                    .padding()
-                
-                NavigationLink{
-                    WybierzMiejsceView(searchText: $searchTextPlace, hasSelected: $hasSelectedPlace, offices: Array(webSocketManager.offices_info.keys))
-                } label : {
-                    SearchBar(text: $searchTextPlace)
-                        .padding(.bottom,20)
-                    
-                }
-                
-                if hasSelectedPlace{
-                    Text("Wybierz sprawę, w której jesteś")
+                    }
+                    .frame(width: geometry.size.width, height: 70)
+                    .background(Color(hex: "f1f8f1"))
+
+                    Spacer()
+
+                    Text("Wybierz gdzie chcesz stanąć w kolejce")
+                        .foregroundStyle(.black)
                         .font(.system(size: 20))
                         .padding()
                     
-                    NavigationLink{
-                        ChooseMatterView(searchText: $searchTextIssue, hasSelected: $hasSelectedIssue, matters: webSocketManager.offices_info[webSocketManager.chosenOffice!]!)
+                    NavigationLink {
+                        WybierzMiejsceView(
+                            searchText: $searchTextPlace,
+                            hasSelected: $hasSelectedPlace,
+                            offices: Array(webSocketManager.offices_info.keys.sorted { (office1: OfficeObject, office2: OfficeObject) -> Bool in
+                                return office1.office < office2.office
+                            })
+                        )
                     } label : {
-                        SearchBar(text: $searchTextIssue)
-                            .padding(.bottom, 20)
+                        SearchBar(text: $searchTextPlace)
+                            .padding(.bottom,20)
                         
                     }
-                }
-                
-                if hasSelectedPlace && hasSelectedIssue{
-                    VStack {
-                        VStack{
-                            HStack{
-                                Text("Liczba osób w kolejce:  \(webSocketManager.queue.ticketsInQueue.count)")
-                            }.padding(EdgeInsets(top: 10, leading: 10, bottom: 5, trailing: 10))
-                            
-                            HStack{
-                                Text("Liczba otwartych okienek: \(webSocketManager.queue.countersArray.count)")
-                            }.padding(EdgeInsets(top: 0, leading: 10, bottom: 5, trailing: 10))
-                            HStack{
-                                Text("Przewidywany czas oczekiwania: 30 min")
-                            }.padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
-                        }
-                        .background(RoundedRectangle(cornerRadius:7).fill(Color(hex:"DEF0F0")).shadow(radius: 3))
-                        .padding()
-                        .padding(.bottom,20)
+                    
+                    if hasSelectedPlace{
+                        Text("Wybierz sprawę")
+                            .foregroundStyle(.black)
+                            .font(.system(size: 20))
+                            .padding()
                         
                         NavigationLink{
-                            ContentView()
-                        } label: {
-                            Text("DOŁĄCZ DO KOLEJKI")
-                                .foregroundStyle(.black)
-                                .padding()
+                            ChooseMatterView(
+                                searchText: $searchTextIssue, hasSelected: $hasSelectedIssue, matters: webSocketManager.offices_info[webSocketManager.chosenOffice!]!)
+                        } label : {
+                            SearchBar(text: $searchTextIssue)
+                                .padding(.bottom, 20)
+                            
                         }
-                        .buttonStyle(CustomButtonStyle(width: 200, color: .green))
-                        .simultaneousGesture(TapGesture().onEnded{
-                            print("tapped")
-                            webSocketManager.sendAddNumberMessage()
-                        })
                     }
+                    
+                    if hasSelectedPlace && hasSelectedIssue{
+                        VStack {
+                            VStack{
+                                HStack{
+                                    Text("Liczba osób w kolejce:  \(webSocketManager.queue.ticketsInQueue.count)")
+                                }
+                                .foregroundColor(.black)
+                                .padding(EdgeInsets(top: 10, leading: 10, bottom: 5, trailing: 10))
+                                
+                                HStack{
+                                    Text("Liczba otwartych okienek: \(webSocketManager.queue.countersArray.count)")
+                                }
+                                .foregroundColor(.black)
+                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 5, trailing: 10))
+                                
+                                HStack{
+                                    Text("Przewidywany czas oczekiwania: 30 min")
+                                }
+                                .foregroundColor(.black)
+                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+                            }
+                            .background(RoundedRectangle(cornerRadius:7).fill(Color(hex:"DEF0F0")).shadow(radius: 3))
+                            .padding()
+                            .padding(.bottom,20)
+                            
+                            NavigationLink{
+                                ContentView()
+                            } label: {
+                                Text("DOŁĄCZ DO KOLEJKI")
+                                    .foregroundStyle(.black)
+                                    .padding()
+                            }
+                            .buttonStyle(CustomButtonStyle(width: 200, color: .green))
+                            .simultaneousGesture(TapGesture().onEnded{
+                                print("tapped")
+                                webSocketManager.sendAddNumberMessage()
+                            })
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    Image("Footer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width)
                 }
-                
-                
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(hex: "CBE2E2"))
-          
-        }.environmentObject(webSocketManager)
+                .ignoresSafeArea(edges: .bottom)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(hex: "#f1f8f8"))
+                //.background(Image("BackgroundImage"))
+              
+            }.environmentObject(webSocketManager)
+        }
     }
 }
 

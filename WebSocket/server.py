@@ -39,7 +39,7 @@ class Queue:
     def __init__(self, matter):
         self.queue = [Person("1", None), Person("2", None), Person("3", None), Person("4", None), Person("5", None),
                       Person("6", None)]
-        self.counters = [Counter(3), Counter(5)]
+        self.counters = [Counter(3,servedTicket=Person("1",None)), Counter(5,servedTicket=Person("2",None))]
         self.matter = matter
         self.connections = set()
 
@@ -222,7 +222,7 @@ async def handle_websocket(websocket, path):
         print("Client disconnected")
 
 
-start_server = websockets.serve(handle_websocket, "localhost", 3000)
+start_server = websockets.serve(handle_websocket, "192.168.1.107", 3000)
 
 print("WebSocket server is running...")
 asyncio.get_event_loop().run_until_complete(start_server)

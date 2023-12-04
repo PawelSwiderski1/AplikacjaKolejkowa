@@ -24,28 +24,25 @@ struct WybierzMiejsceView: View {
         
         VStack{
             SearchBar(text: $searchText)
-                .padding(.top, -30)
             
             List(offices.filter({ searchText.isEmpty ? true : $0.office.contains(searchText) })) { item in
                 Text(item.office)
-                    .listRowBackground(Color(.systemGray6))
+                    .foregroundColor(.black)
+                    .listRowBackground(Color(hex:"FFFFFF"))
                     .onTapGesture {
-                        //webSocketManager.setupWebSocket()
                         webSocketManager.chosenOffice = item
                         searchText = item.office
                         hasSelected = true
                         self.presentation.wrappedValue.dismiss()
                     }
             }
-            .background(Color(hex: "CBE2E2"))
             .scrollContentBackground(.hidden)
+            //.background(Color(hex:"#f1f8f8"))
 
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(hex: "CBE2E2"))
         .padding()
-        .padding(.top, 15)
-        .background(Color(hex: "CBE2E2"))
+        .background(Color(hex: "F1f8f8"))
     }
 }
 

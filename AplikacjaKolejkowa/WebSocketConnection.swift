@@ -36,7 +36,7 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
     }
 
     func setupWebSocket() {
-        let urlString = "ws://localhost:3000"
+        let urlString = "ws://192.168.1.107:3000"
         guard let url = URL(string: urlString) else { return }
         socket = WebSocket(request: URLRequest(url: url))
         socket.delegate = self
@@ -114,7 +114,7 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
                             if let offices_info_server = json["offices_info"] as? [String: [String]] {
                                 for (officeString, matterStrings) in offices_info_server{
                                     let officeObject = OfficeObject(office: officeString)
-                                    let matterObjects = matterStrings.map { MatterObject(matter: $0) }
+                                    let matterObjects = matterStrings.sorted().map { MatterObject(matter: $0) }
 
                                     offices_info[officeObject] = matterObjects
                                 }

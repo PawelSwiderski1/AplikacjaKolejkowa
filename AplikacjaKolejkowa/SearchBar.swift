@@ -15,10 +15,13 @@ struct SearchBar: View {
     var body: some View {
         HStack {
  
-            TextField("Wyszukaj ...", text: $text)
+            TextField("", text: $text, prompt: Text("Wyszukaj...").foregroundColor(.black.opacity(0.5)))
                 .padding(7)
                 .padding(.horizontal, 25)
-                .background(Color(.systemGray6))
+                //.background(Color(.systemGray6))
+                //.background(Color(hex:"E5E4E2"))
+                .foregroundColor(Color.black)
+                .background(Color.white)
                 .cornerRadius(8)
                 .overlay(
                     HStack {
@@ -57,6 +60,9 @@ struct SearchBar: View {
                 .animation(.default)
             }
         }
+        .frame(width: UIScreen.main.bounds.width)
+        .background(Color(hex: "#f1f8f8"))
+
     }
 }
 
