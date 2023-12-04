@@ -28,7 +28,7 @@ struct StartView: View {
                     .padding()
                 
                 NavigationLink{
-                    WybierzMiejsceView(searchText: $searchTextPlace, hasSelected: $hasSelectedPlace)
+                    WybierzMiejsceView(searchText: $searchTextPlace, hasSelected: $hasSelectedPlace, offices: Array(webSocketManager.offices_info.keys))
                 } label : {
                     SearchBar(text: $searchTextPlace)
                         .padding(.bottom,20)
@@ -41,7 +41,7 @@ struct StartView: View {
                         .padding()
                     
                     NavigationLink{
-                        WybierzMiejsceView(searchText: $searchTextIssue, hasSelected: $hasSelectedIssue)
+                        ChooseMatterView(searchText: $searchTextIssue, hasSelected: $hasSelectedIssue, matters: webSocketManager.offices_info[webSocketManager.chosenOffice!]!)
                     } label : {
                         SearchBar(text: $searchTextIssue)
                             .padding(.bottom, 20)

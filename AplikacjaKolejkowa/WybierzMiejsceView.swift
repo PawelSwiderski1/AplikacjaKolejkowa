@@ -7,21 +7,18 @@
 
 import SwiftUI
 
-struct NameObject: Identifiable {
-    var id = UUID()
-    var name: String = ""
-}
+
 
 struct WybierzMiejsceView: View {
-    let names = [NameObject(name: "Urząd dzielnicy Ursynów"), NameObject(name: "Poczta, ul. Puławska 456"), NameObject(name:"Poczta, ul. Pelikanów 46"), NameObject(name: "Centrum kultury Ursynów"),NameObject(name: "Urząd dzielnicy Ursynów"), NameObject(name: "Poczta, ul. Puławska 456"), NameObject(name:"Poczta, ul. Pelikanów 46"), NameObject(name: "Centrum kultury Ursynów"), NameObject(name: "Szpital Onkologiczny Południowy"),NameObject(name: "Urząd dzielnicy Ursynów"), NameObject(name: "Poczta, ul. Puławska 456"), NameObject(name:"Poczta, ul. Pelikanów 46"), NameObject(name: "Centrum kultury Ursynów"), NameObject(name: "Szpital Onkologiczny Południowy"),NameObject(name: "Urząd dzielnicy Ursynów"), NameObject(name: "Poczta, ul. Puławska 456"), NameObject(name:"Poczta, ul. Pelikanów 46"), NameObject(name: "Centrum kultury Ursynów"), NameObject(name: "Szpital Onkologiczny Południowy")]
     
     @EnvironmentObject var webSocketManager: WebSocketManager
-
     
     @Environment(\.presentationMode) var presentation
     
     @Binding var searchText: String
     @Binding var hasSelected: Bool
+    
+    let offices: [OfficeObject]
     
     var body: some View {
         
@@ -29,12 +26,13 @@ struct WybierzMiejsceView: View {
             SearchBar(text: $searchText)
                 .padding(.top, -30)
             
-            List(names.filter({ searchText.isEmpty ? true : $0.name.contains(searchText) })) { item in
-                Text(item.name)
+            List(offices.filter({ searchText.isEmpty ? true : $0.office.contains(searchText) })) { item in
+                Text(item.office)
                     .listRowBackground(Color(.systemGray6))
                     .onTapGesture {
-                        webSocketManager.setupWebSocket()
-                        searchText = item.name
+                        //webSocketManager.setupWebSocket()
+                        webSocketManager.chosenOffice = item
+                        searchText = item.office
                         hasSelected = true
                         self.presentation.wrappedValue.dismiss()
                     }
@@ -52,5 +50,6 @@ struct WybierzMiejsceView: View {
 }
 
 #Preview {
-    WybierzMiejsceView(searchText: .constant(""), hasSelected: .constant(false))
+    WybierzMiejsceView(searchText: .constant(""), hasSelected: .constant(false),offices: [OfficeObject(office: "Urząd dzielnicy Ursynów"), OfficeObject(office: "Poczta, ul. Puławska 456"), OfficeObject(office: "Poczta, ul. Pelikanów 46"), OfficeObject(office: "Centrum kultury Ursynów"), OfficeObject(office: "Urząd dzielnicy Ursynów"), OfficeObject(office: "Poczta, ul. Puławska 456"), OfficeObject(office: "Poczta, ul. Pelikanów 46"), OfficeObject(office: "Centrum kultury Ursynów"), OfficeObject(office: "Szpital Onkologiczny Południowy"), OfficeObject(office: "Urząd dzielnicy Ursynów"), OfficeObject(office: "Poczta, ul. Puławska 456"), OfficeObject(office: "Poczta, ul. Pelikanów 46"), OfficeObject(office: "Centrum kultury Ursynów"), OfficeObject(office: "Szpital Onkologiczny Południowy"), OfficeObject(office: "Urząd dzielnicy Ursynów"), OfficeObject(office: "Poczta, ul. Puławska 456"), OfficeObject(office: "Poczta, ul. Pelikanów 46"), OfficeObject(office: "Centrum kultury Ursynów"), OfficeObject(office: "Szpital Onkologiczny Południowy")]
+)
 }

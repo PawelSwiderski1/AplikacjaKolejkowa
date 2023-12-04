@@ -13,6 +13,9 @@ import SwiftUI
 
 class WebSocketManager: WebSocketDelegate, ObservableObject {
     var socket: WebSocket!
+    @Published var offices_info: [OfficeObject: [MatterObject]] = [:]
+    @Published var chosenOffice: OfficeObject? = nil
+    @Published var chosenMatter: MatterObject? = nil
     @Published var queue = Queue()
     @Published var usersNumber: String? = nil
     @Published var counterToGo: Int? = nil
@@ -28,9 +31,9 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
     }
 
 
-//    init() {
-//        setupWebSocket()
-//    }
+    init() {
+        setupWebSocket()
+    }
 
     func setupWebSocket() {
         let urlString = "ws://localhost:3000"
@@ -54,22 +57,22 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
 //        sendJSONMessage(message)
 //        objectWillChange.send()
 //    }
-    func sendGetQueueInfoMessage() {
+    func sendGetQueueInfoMessage(matter: String) {
         print("sent info")
             // Send a message to the server to add a number
-        let message = ["client_type": "person", "action": "get_queue_info"]
+        let message = ["matter": matter, "client_type": "person", "action": "get_queue_info"]
             sendJSONMessage(message)
         }
     
     func sendAddNumberMessage() {
             // Send a message to the server to add a number
-            let message = ["client_type": "person", "action": "add_number"]
+        let message = ["matter": chosenMatter!.matter, "client_type": "person", "action": "add_number"]
             sendJSONMessage(message)
         }
     
     func sendLeaveQueueMessage() {
             // Send a message to the server to add a number
-        let message = ["client_type": "person", "action": "leave_queue", "number": usersNumber!] as [String : Any]
+        let message = ["matter": chosenMatter!.matter, "client_type": "person", "action": "leave_queue", "number": usersNumber!] as [String : Any]
             sendJSONMessage(message)
         usersNumber = nil
         }
@@ -104,6 +107,19 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
 
                     // Check if the message contains an 'action' key
                     if let action = json["action"] as? String {
+                        
+                        if action == "sent_offices_info" {
+                           // Get information about the queue
+                            
+                            if let offices_info_server = json["offices_info"] as? [String: [String]] {
+                                for (officeString, matterStrings) in offices_info_server{
+                                    let officeObject = OfficeObject(office: officeString)
+                                    let matterObjects = matterStrings.map { MatterObject(matter: $0) }
+
+                                    offices_info[officeObject] = matterObjects
+                                }
+                           }
+                       }
                         if action == "sent_queue_info" {
                            // Get information about the queue
                             
@@ -150,6 +166,16 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
             break
         }
     }
+}
+
+struct OfficeObject: Identifiable, Hashable {
+    var id = UUID()
+    var office: String
+}
+
+struct MatterObject: Identifiable {
+    var id = UUID()
+    var matter: String
 }
 
 struct Counter {
