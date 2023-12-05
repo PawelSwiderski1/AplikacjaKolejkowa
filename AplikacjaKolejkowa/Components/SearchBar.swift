@@ -18,8 +18,6 @@ struct SearchBar: View {
             TextField("", text: $text, prompt: Text("Wyszukaj...").foregroundColor(.black.opacity(0.5)))
                 .padding(7)
                 .padding(.horizontal, 25)
-                //.background(Color(.systemGray6))
-                //.background(Color(hex:"E5E4E2"))
                 .foregroundColor(Color.black)
                 .background(Color.white)
                 .cornerRadius(8)
@@ -43,10 +41,6 @@ struct SearchBar: View {
                 )
                 .padding(.horizontal, 10)
 
-//                .onTapGesture {
-//                    self.isEditing = true
-//                }
- 
             if isEditing {
                 Button(action: {
                     self.isEditing = false

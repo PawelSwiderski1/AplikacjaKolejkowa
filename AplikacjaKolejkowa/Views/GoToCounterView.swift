@@ -13,7 +13,6 @@ struct GoToCounterView: View {
     
     var body: some View {
         VStack(spacing:40){
-            //Spacer()
             
             Text("TWOJA KOLEJ!")
                 .foregroundStyle(.black)
@@ -28,7 +27,7 @@ struct GoToCounterView: View {
                         .foregroundStyle(.black)
                         .font(.system(size: 20))
                     
-                    Text("Okienko nr 2")
+                    Text("Okienko nr \(webSocketManager.counterToGo ?? 0)")
                         .foregroundStyle(.black)
                         .font(.system(size: 25))
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -36,7 +35,7 @@ struct GoToCounterView: View {
                 }
                 .padding()
                 
-                Text("\("5")")
+                Text("\(webSocketManager.usersNumber ?? "")")
                     .foregroundStyle(.white)
                     .font(.system(size: 70))
                     .frame(width: 280, height: 200)
@@ -54,6 +53,11 @@ struct GoToCounterView: View {
     }
 }
 
-#Preview {
-    GoToCounterView()
+struct GoToCounterVirw_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView{
+            GoToCounterView()
+        }.environmentObject(PreviewWebSocketManager)
+        
+    }
 }

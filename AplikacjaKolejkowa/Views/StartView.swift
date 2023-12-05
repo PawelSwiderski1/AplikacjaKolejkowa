@@ -15,10 +15,7 @@ struct StartView: View {
 
     @StateObject private var webSocketManager = WebSocketManager()
 
-      
-
     var body: some View {
-        let _ = print(webSocketManager.queue.ticketsInQueue)
         GeometryReader { geometry in
             NavigationStack{
                 VStack{
@@ -26,7 +23,6 @@ struct StartView: View {
                         Text("APLIKACJA KOLEJKOWA")
                             .font(.custom("Lovelo-Black",size: 20))
                             .foregroundStyle(.black)
-                            //.fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
                     }
                     .frame(width: geometry.size.width, height: 70)
@@ -40,7 +36,7 @@ struct StartView: View {
                         .padding()
                     
                     NavigationLink {
-                        WybierzMiejsceView(
+                        ChooseOfficeView(
                             searchText: $searchTextPlace,
                             hasSelected: $hasSelectedPlace,
                             offices: Array(webSocketManager.offices_info.keys.sorted { (office1: OfficeObject, office2: OfficeObject) -> Bool in
@@ -94,18 +90,15 @@ struct StartView: View {
                             .padding()
                             .padding(.bottom,20)
                             
-                            NavigationLink{
-                                ContentView()
+                            Button {
+                                webSocketManager.sendAddNumberMessage()
+                                webSocketManager.visitOver = true
                             } label: {
                                 Text("DOŁĄCZ DO KOLEJKI")
                                     .foregroundStyle(.black)
                                     .padding()
-                            }
-                            .buttonStyle(CustomButtonStyle(width: 200, color: .green))
-                            .simultaneousGesture(TapGesture().onEnded{
-                                print("tapped")
-                                webSocketManager.sendAddNumberMessage()
-                            })
+                            }.buttonStyle(CustomButtonStyle(width: 200, color: .green))
+                            
                         }
                     }
                     
@@ -116,10 +109,20 @@ struct StartView: View {
                         .scaledToFit()
                         .frame(width: geometry.size.width)
                 }
+                .onAppear{
+                    if webSocketManager.shouldCleanStartView{
+                        searchTextPlace = ""
+                        hasSelectedPlace = false
+                        searchTextIssue = ""
+                        hasSelectedIssue = false
+                        
+                        webSocketManager.shouldCleanStartView = false
+                    }
+                }
+                .navigationDestination(isPresented: $webSocketManager.visitOver) { InQueueView()}
                 .ignoresSafeArea(edges: .bottom)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color(hex: "#f1f8f8"))
-                //.background(Image("BackgroundImage"))
               
             }.environmentObject(webSocketManager)
         }

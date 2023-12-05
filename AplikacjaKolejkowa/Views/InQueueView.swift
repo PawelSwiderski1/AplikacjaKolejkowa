@@ -8,11 +8,11 @@
 import SwiftUI
 import PopupView
 
-struct ContentView: View{
+struct InQueueView: View{
     @EnvironmentObject var webSocketManager: WebSocketManager
     
     var body: some View {
-        if webSocketManager.showPopup{
+        if !webSocketManager.showPopup{
             QueueWaitingView()
         } else {
             GoToCounterView()
@@ -24,10 +24,6 @@ struct ContentView: View{
 struct QueueWaitingView: View {
     @EnvironmentObject var webSocketManager: WebSocketManager
     @Environment(\.presentationMode) var presentation
-    //@State var showingPopup = true
-
-
-    
     
     var body: some View {
         VStack {
@@ -51,7 +47,6 @@ struct QueueWaitingView: View {
                 }
             }
             .frame(width:500)
-            //.background(Color(hex: "#f2f1f8"))
             
             Divider()
                 .frame(height: 2)
@@ -99,6 +94,7 @@ struct QueueWaitingView: View {
             
             Button{
                 webSocketManager.sendLeaveQueueMessage()
+                webSocketManager.shouldCleanStartView = true
                 self.presentation.wrappedValue.dismiss()
             } label: {
                 Text("OPUŚĆ KOLEJKĘ")
@@ -111,36 +107,19 @@ struct QueueWaitingView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(hex: "#f1f8f8"))
         .navigationBarBackButtonHidden(true)
-        //        .popup(isPresented: $webSocketManager.showPopup) {
-        //                        Text("The popup")
-        //                                            .frame(width: 200, height: 60)
-        //                                            .background(Color(red: 0.85, green: 0.8, blue: 0.95))
-        //                                            .cornerRadius(30.0)
-        //                                    } customize: {
-        //                                        $0.autohideIn(2)
-        //                                    }
-        //            GoToCounterView()
-        //        }
         
-        
-    
         
     }
         
 }
 
-//#Preview {
-//    
-//    ContentView()
-//    .environmentObject(WebSocketManager())
-//}
 
 
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView{
-            ContentView()
+            InQueueView()
         }.environmentObject(PreviewWebSocketManager)
         
     }

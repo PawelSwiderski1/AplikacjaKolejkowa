@@ -9,18 +9,12 @@
 /* Begin PBXBuildFile section */
 		7A153AA02B1DF77E0024A313 /* AmericanTypewriter.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 7A153A9F2B1DF77E0024A313 /* AmericanTypewriter.ttc */; };
 		7A69E4EF2B120772004B50FB /* AplikacjaKolejkowaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E4EE2B120772004B50FB /* AplikacjaKolejkowaApp.swift */; };
-		7A69E4F12B120772004B50FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E4F02B120772004B50FB /* ContentView.swift */; };
+		7A69E4F12B120772004B50FB /* InQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E4F02B120772004B50FB /* InQueueView.swift */; };
 		7A69E4F32B120776004B50FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A69E4F22B120776004B50FB /* Assets.xcassets */; };
 		7A69E4F62B120776004B50FB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A69E4F52B120776004B50FB /* Preview Assets.xcassets */; };
 		7A69E4FD2B121405004B50FB /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E4FC2B121405004B50FB /* ButtonStyle.swift */; };
 		7A69E4FF2B12142C004B50FB /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E4FE2B12142C004B50FB /* HexColor.swift */; };
-		7A69E5012B1220F3004B50FB /* WezNumerekVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E5002B1220F3004B50FB /* WezNumerekVIew.swift */; };
-		7A69E5032B1223B8004B50FB /* WybierzMiejsceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E5022B1223B8004B50FB /* WybierzMiejsceView.swift */; };
-		7A69E50C2B12476E004B50FB /* DropdownMenuOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E5082B12476E004B50FB /* DropdownMenuOption.swift */; };
-		7A69E50D2B12476E004B50FB /* DropdownMenuList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E5092B12476E004B50FB /* DropdownMenuList.swift */; };
-		7A69E50E2B12476E004B50FB /* DropdownMenuListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E50A2B12476E004B50FB /* DropdownMenuListRow.swift */; };
-		7A69E50F2B12476E004B50FB /* DropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E50B2B12476E004B50FB /* DropdownMenu.swift */; };
-		7A69E5112B125F2E004B50FB /* DropDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E5102B125F2E004B50FB /* DropDownView.swift */; };
+		7A69E5032B1223B8004B50FB /* ChooseOfficeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E5022B1223B8004B50FB /* ChooseOfficeView.swift */; };
 		7A69E51E2B12B81C004B50FB /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E51D2B12B81C004B50FB /* SearchBar.swift */; };
 		7A69E5202B12BB98004B50FB /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E51F2B12BB98004B50FB /* StartView.swift */; };
 		7A69E5232B135B1C004B50FB /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 7A69E5222B135B1C004B50FB /* SocketIO */; };
@@ -36,18 +30,12 @@
 		7A153A9F2B1DF77E0024A313 /* AmericanTypewriter.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AmericanTypewriter.ttc; sourceTree = "<group>"; };
 		7A69E4EB2B120772004B50FB /* AplikacjaKolejkowa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AplikacjaKolejkowa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A69E4EE2B120772004B50FB /* AplikacjaKolejkowaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AplikacjaKolejkowaApp.swift; sourceTree = "<group>"; };
-		7A69E4F02B120772004B50FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7A69E4F02B120772004B50FB /* InQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InQueueView.swift; sourceTree = "<group>"; };
 		7A69E4F22B120776004B50FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A69E4F52B120776004B50FB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7A69E4FC2B121405004B50FB /* ButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		7A69E4FE2B12142C004B50FB /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
-		7A69E5002B1220F3004B50FB /* WezNumerekVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WezNumerekVIew.swift; sourceTree = "<group>"; };
-		7A69E5022B1223B8004B50FB /* WybierzMiejsceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WybierzMiejsceView.swift; sourceTree = "<group>"; };
-		7A69E5082B12476E004B50FB /* DropdownMenuOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropdownMenuOption.swift; sourceTree = "<group>"; };
-		7A69E5092B12476E004B50FB /* DropdownMenuList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropdownMenuList.swift; sourceTree = "<group>"; };
-		7A69E50A2B12476E004B50FB /* DropdownMenuListRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropdownMenuListRow.swift; sourceTree = "<group>"; };
-		7A69E50B2B12476E004B50FB /* DropdownMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropdownMenu.swift; sourceTree = "<group>"; };
-		7A69E5102B125F2E004B50FB /* DropDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownView.swift; sourceTree = "<group>"; };
+		7A69E5022B1223B8004B50FB /* ChooseOfficeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseOfficeView.swift; sourceTree = "<group>"; };
 		7A69E51D2B12B81C004B50FB /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		7A69E51F2B12BB98004B50FB /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		7A69E5242B135B58004B50FB /* WebSocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnection.swift; sourceTree = "<group>"; };
@@ -90,23 +78,14 @@
 		7A69E4ED2B120772004B50FB /* AplikacjaKolejkowa */ = {
 			isa = PBXGroup;
 			children = (
-				7A8FF1262B1DF1B500D3594A /* Info.plist */,
-				7A69E5072B12476E004B50FB /* DropdownMenu */,
 				7A69E4EE2B120772004B50FB /* AplikacjaKolejkowaApp.swift */,
-				7A69E4F02B120772004B50FB /* ContentView.swift */,
-				7A69E5002B1220F3004B50FB /* WezNumerekVIew.swift */,
-				7A69E4F22B120776004B50FB /* Assets.xcassets */,
+				7ABF66532B1FB07100DB9CF9 /* Views */,
+				7ABF66552B1FB1A500DB9CF9 /* Components */,
 				7A69E4F42B120776004B50FB /* Preview Content */,
 				7A8FF11F2B1DF0E400D3594A /* Fonts */,
-				7A69E4FC2B121405004B50FB /* ButtonStyle.swift */,
-				7A69E4FE2B12142C004B50FB /* HexColor.swift */,
-				7A69E5022B1223B8004B50FB /* WybierzMiejsceView.swift */,
-				7A69E51D2B12B81C004B50FB /* SearchBar.swift */,
-				7A69E51F2B12BB98004B50FB /* StartView.swift */,
 				7A69E5242B135B58004B50FB /* WebSocketConnection.swift */,
-				7A8FF11B2B18C0DC00D3594A /* TicketShape.swift */,
-				7A8FF11D2B1CAA9C00D3594A /* ChooseMatterView.swift */,
-				7A7770422B1E838300F7BEFB /* GoToCounterView.swift */,
+				7A69E4F22B120776004B50FB /* Assets.xcassets */,
+				7A8FF1262B1DF1B500D3594A /* Info.plist */,
 			);
 			path = AplikacjaKolejkowa;
 			sourceTree = "<group>";
@@ -119,18 +98,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		7A69E5072B12476E004B50FB /* DropdownMenu */ = {
-			isa = PBXGroup;
-			children = (
-				7A69E5082B12476E004B50FB /* DropdownMenuOption.swift */,
-				7A69E5092B12476E004B50FB /* DropdownMenuList.swift */,
-				7A69E50A2B12476E004B50FB /* DropdownMenuListRow.swift */,
-				7A69E50B2B12476E004B50FB /* DropdownMenu.swift */,
-				7A69E5102B125F2E004B50FB /* DropDownView.swift */,
-			);
-			path = DropdownMenu;
-			sourceTree = "<group>";
-		};
 		7A8FF11F2B1DF0E400D3594A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +105,29 @@
 				7A153A9F2B1DF77E0024A313 /* AmericanTypewriter.ttc */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		7ABF66532B1FB07100DB9CF9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7A69E51F2B12BB98004B50FB /* StartView.swift */,
+				7A69E4F02B120772004B50FB /* InQueueView.swift */,
+				7A69E5022B1223B8004B50FB /* ChooseOfficeView.swift */,
+				7A8FF11D2B1CAA9C00D3594A /* ChooseMatterView.swift */,
+				7A7770422B1E838300F7BEFB /* GoToCounterView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7ABF66552B1FB1A500DB9CF9 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				7A69E4FC2B121405004B50FB /* ButtonStyle.swift */,
+				7A69E4FE2B12142C004B50FB /* HexColor.swift */,
+				7A69E51D2B12B81C004B50FB /* SearchBar.swift */,
+				7A8FF11B2B18C0DC00D3594A /* TicketShape.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,23 +210,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A69E5112B125F2E004B50FB /* DropDownView.swift in Sources */,
-				7A69E50C2B12476E004B50FB /* DropdownMenuOption.swift in Sources */,
-				7A69E50F2B12476E004B50FB /* DropdownMenu.swift in Sources */,
 				7A69E4FD2B121405004B50FB /* ButtonStyle.swift in Sources */,
 				7A69E4FF2B12142C004B50FB /* HexColor.swift in Sources */,
 				7A69E5252B135B58004B50FB /* WebSocketConnection.swift in Sources */,
 				7A7770432B1E838300F7BEFB /* GoToCounterView.swift in Sources */,
 				7A69E5202B12BB98004B50FB /* StartView.swift in Sources */,
 				7A69E51E2B12B81C004B50FB /* SearchBar.swift in Sources */,
-				7A69E50E2B12476E004B50FB /* DropdownMenuListRow.swift in Sources */,
-				7A69E5012B1220F3004B50FB /* WezNumerekVIew.swift in Sources */,
 				7A8FF11E2B1CAA9C00D3594A /* ChooseMatterView.swift in Sources */,
-				7A69E4F12B120772004B50FB /* ContentView.swift in Sources */,
-				7A69E5032B1223B8004B50FB /* WybierzMiejsceView.swift in Sources */,
+				7A69E4F12B120772004B50FB /* InQueueView.swift in Sources */,
+				7A69E5032B1223B8004B50FB /* ChooseOfficeView.swift in Sources */,
 				7A69E4EF2B120772004B50FB /* AplikacjaKolejkowaApp.swift in Sources */,
 				7A8FF11C2B18C0DC00D3594A /* TicketShape.swift in Sources */,
-				7A69E50D2B12476E004B50FB /* DropdownMenuList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
