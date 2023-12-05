@@ -20,6 +20,9 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
     @Published var usersNumber: String? = nil
     @Published var counterToGo: Int? = nil
     @Published var showPopup: Bool = false
+    @Published var visitOver: Bool = false
+    @Published var shouldCleanStartView: Bool = false
+
 
     var usersPlace: Int? {
         if (usersNumber != nil){
@@ -36,30 +39,16 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
     }
 
     func setupWebSocket() {
-        let urlString = "ws://localhost:3000"
+        // url used to connect to the server, change if your server has different ip or port
+        let urlString = "ws://192.168.1.106:3000"
         guard let url = URL(string: urlString) else { return }
         socket = WebSocket(request: URLRequest(url: url))
         socket.delegate = self
         socket.connect()
     }
 
-//    func sendGetNumbersMessage() {
-//        // Send a message to request the current array from the server
-//        let message = ["action": "get_numbers"]
-//        sendJSONMessage(message)
-//        objectWillChange.send()
-//    }
-
-//    func sendUpdateArrayMessage() {
-//        // Send a message to update the array on the server
-//        let newticketsInQueue = [6, 7, 8, 9, 10]
-//        let message = ["action": "update_numbers", "numbers": newticketsInQueue] as [String : Any]
-//        sendJSONMessage(message)
-//        objectWillChange.send()
-//    }
     func sendGetQueueInfoMessage(matter: String) {
-        print("sent info")
-            // Send a message to the server to add a number
+            // Send a message to the server to get information about the queue
         let message = ["matter": matter, "client_type": "person", "action": "get_queue_info"]
             sendJSONMessage(message)
         }
@@ -71,7 +60,7 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
         }
     
     func sendLeaveQueueMessage() {
-            // Send a message to the server to add a number
+            // Send a message to the server that you are leaving the queue
         let message = ["matter": chosenMatter!.matter, "client_type": "person", "action": "leave_queue", "number": usersNumber!] as [String : Any]
             sendJSONMessage(message)
         usersNumber = nil
@@ -114,7 +103,7 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
                             if let offices_info_server = json["offices_info"] as? [String: [String]] {
                                 for (officeString, matterStrings) in offices_info_server{
                                     let officeObject = OfficeObject(office: officeString)
-                                    let matterObjects = matterStrings.map { MatterObject(matter: $0) }
+                                    let matterObjects = matterStrings.sorted().map { MatterObject(matter: $0) }
 
                                     offices_info[officeObject] = matterObjects
                                 }
@@ -125,7 +114,6 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
                             
                             if let queue_server = json["queue"] as? [String: Any] {
                                queue.update(with: queue_server)
-                               //countersArray = counters
                            }
                        }
                         else if action == "update_numbers" {
@@ -152,7 +140,14 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
                             if let counter = json["counter_id"] as? Int {
                                 counterToGo = counter
                                 showPopup = true
+                                shouldCleanStartView = true
                             }
+                        }
+                        
+                        else if action == "visit_over" {
+                            // When your visit at the counter is over
+                            visitOver = false
+                            showPopup = false
                         }
                     }
                 }

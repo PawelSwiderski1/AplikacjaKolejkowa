@@ -15,10 +15,11 @@ struct SearchBar: View {
     var body: some View {
         HStack {
  
-            TextField("Wyszukaj ...", text: $text)
+            TextField("", text: $text, prompt: Text("Wyszukaj...").foregroundColor(.black.opacity(0.5)))
                 .padding(7)
                 .padding(.horizontal, 25)
-                .background(Color(.systemGray6))
+                .foregroundColor(Color.black)
+                .background(Color.white)
                 .cornerRadius(8)
                 .overlay(
                     HStack {
@@ -40,10 +41,6 @@ struct SearchBar: View {
                 )
                 .padding(.horizontal, 10)
 
-//                .onTapGesture {
-//                    self.isEditing = true
-//                }
- 
             if isEditing {
                 Button(action: {
                     self.isEditing = false
@@ -57,6 +54,9 @@ struct SearchBar: View {
                 .animation(.default)
             }
         }
+        .frame(width: UIScreen.main.bounds.width)
+        .background(Color(hex: "#f1f8f8"))
+
     }
 }
 

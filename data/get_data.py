@@ -21,6 +21,7 @@ def office_names_and_actions():
     action_names = []
     for df in dfs:
         if (df.columns.tolist()[0] == 'Nazwa grupy'):
+            df = df.iloc[:-1]
             action_names.append(df.iloc[:, 0].tolist())
 
     my_dict = dict(zip(office_names, action_names))
