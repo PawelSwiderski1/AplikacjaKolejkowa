@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PopupView
 
 struct InQueueView: View{
     @EnvironmentObject var webSocketManager: WebSocketManager

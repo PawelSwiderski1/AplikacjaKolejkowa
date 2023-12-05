@@ -21,7 +21,6 @@
 		7A69E5252B135B58004B50FB /* WebSocketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E5242B135B58004B50FB /* WebSocketConnection.swift */; };
 		7A7770432B1E838300F7BEFB /* GoToCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7770422B1E838300F7BEFB /* GoToCounterView.swift */; };
 		7A7C08142B1DFD4300D99C6B /* Lovelo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A7C08132B1DFD4300D99C6B /* Lovelo-Black.ttf */; };
-		7A8FF11A2B18BA0400D3594A /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 7A8FF1192B18BA0400D3594A /* PopupView */; };
 		7A8FF11C2B18C0DC00D3594A /* TicketShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8FF11B2B18C0DC00D3594A /* TicketShape.swift */; };
 		7A8FF11E2B1CAA9C00D3594A /* ChooseMatterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8FF11D2B1CAA9C00D3594A /* ChooseMatterView.swift */; };
 /* End PBXBuildFile section */
@@ -51,7 +50,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A8FF11A2B18BA0400D3594A /* PopupView in Frameworks */,
 				7A69E5232B135B1C004B50FB /* SocketIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,7 +146,6 @@
 			name = AplikacjaKolejkowa;
 			packageProductDependencies = (
 				7A69E5222B135B1C004B50FB /* SocketIO */,
-				7A8FF1192B18BA0400D3594A /* PopupView */,
 			);
 			productName = AplikacjaKolejkowa;
 			productReference = 7A69E4EB2B120772004B50FB /* AplikacjaKolejkowa.app */;
@@ -180,7 +177,6 @@
 			mainGroup = 7A69E4E22B120772004B50FB;
 			packageReferences = (
 				7A69E5212B135B1C004B50FB /* XCRemoteSwiftPackageReference "socket" */,
-				7A8FF1182B18BA0400D3594A /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 7A69E4EC2B120772004B50FB /* Products */;
 			projectDirPath = "";
@@ -440,14 +436,6 @@
 				kind = branch;
 			};
 		};
-		7A8FF1182B18BA0400D3594A /* XCRemoteSwiftPackageReference "PopupView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/exyte/PopupView";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.3;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -455,11 +443,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7A69E5212B135B1C004B50FB /* XCRemoteSwiftPackageReference "socket" */;
 			productName = SocketIO;
-		};
-		7A8FF1192B18BA0400D3594A /* PopupView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7A8FF1182B18BA0400D3594A /* XCRemoteSwiftPackageReference "PopupView" */;
-			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
