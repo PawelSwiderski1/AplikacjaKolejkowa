@@ -36,9 +36,10 @@ class Counter:
         self.idNumber = idNumber  # Counter is initialized with id and ticket that its serving
         self.servedTicket = servedTicket
 
-    # Class holding information about a Queue (Kolejka)
 
 
+
+# Class holding information about a Queue (Kolejka)
 class Queue:
     def __init__(self, matter):  # We initialize queue with matter because there is a seperate queue for every matter
         self.people = [Person("3", None), Person("4", None), Person("5", None), Person("6", None)]
@@ -69,6 +70,15 @@ class QueueToSendInfo:
         self.counters = []
 
         for counter in queue.counters:
+            new_counter = Counter(counter.idNumber,
+                                  counter.servedTicket.ticketNumber if counter.servedTicket else None)
+            self.counters.append(new_counter)
+
+class CountersToSendInfo:
+    def __init__(self, counters):
+        self.counters = []
+
+        for counter in counters:
             new_counter = Counter(counter.idNumber,
                                   counter.servedTicket.ticketNumber if counter.servedTicket else None)
             self.counters.append(new_counter)
@@ -144,7 +154,6 @@ async def handle_websocket(websocket, path):
                     queue = queues[matter]
 
                     queue.connections.add(websocket)
-                    print(queue.connections)
 
                     match client_type:
                         # Check if message comes from a person standing in queue (using the app)
@@ -161,13 +170,18 @@ async def handle_websocket(websocket, path):
 
                                 case 'add_number':
                                     # We check if the person that want to join the queue isn't already in it
-                                    if not any(person.connection == websocket for person in queue.people):
-                                        # Add a number one larger than the largest number
-                                        # to the array or 1 if array is empty
-                                        if queue.ticketsInQueue():
-                                            new_number = str(int(queue.ticketsInQueue()[-1]) + 1)
-                                        else:
-                                            new_number = "1"
+                                    #if not any(person.connection == websocket for person in queue.people):
+                                    # Find the highest number among the people in the queue and those being served at the counters
+                                        highest_number_in_queue = max(
+                                            [int(person.ticketNumber) for person in queue.people if
+                                             person.ticketNumber is not None], default=0)
+                                        highest_number_at_counters = max(
+                                            [int(counter.servedTicket.ticketNumber) for counter in queue.counters if
+                                             counter.servedTicket is not None and counter.servedTicket.ticketNumber is not None],
+                                            default=0)
+                                        highest_number = max(highest_number_in_queue, highest_number_at_counters)
+                                        new_number = str(highest_number + 1)
+
                                         queue.people.append(Person(new_number, websocket))
 
                                         # Send the new number to the client
@@ -204,7 +218,7 @@ async def handle_websocket(websocket, path):
 
                                     # Broadcast the updated counters to all connected clients
                                     response = {'action': 'update_counters',
-                                                'new_counters': json.loads(QueueEncoder().encode(queue.counters))}
+                                                'new_counters': json.loads(QueueEncoder().encode(CountersToSendInfo(queue.counters)))}
                                     await asyncio.gather(
                                         *[client.send(json.dumps(response)) for client in queue.connections])
 
@@ -215,7 +229,7 @@ async def handle_websocket(websocket, path):
 
                                     # Broadcast the updated counters to all connected clients
                                     response = {'action': 'update_counters',
-                                                'new_counters': json.loads(QueueEncoder().encode(queue.counters))}
+                                                'new_counters': json.loads(QueueEncoder().encode(CountersToSendInfo(queue.counters)))}
                                     await asyncio.gather(
                                         *[client.send(json.dumps(response)) for client in queue.connections])
 
@@ -280,7 +294,7 @@ async def handle_websocket(websocket, path):
         # Add any cleanup code or resource release here if needed
 
 
-start_server = websockets.serve(handle_websocket, "192.168.1.106", 3000)
+start_server = websockets.serve(handle_websocket, "localhost", 4000)
 
 print("WebSocket server is running...")
 asyncio.get_event_loop().run_until_complete(start_server)
