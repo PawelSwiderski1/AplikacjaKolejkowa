@@ -3,6 +3,7 @@ brania numerków z maszyny i patrzenia na wyświetlacze kiedy jest nasza kolej. 
 sprawę, w której chcemy w stanąć w kolejce do okienka. Jesteśmy informowani ile osób jest w kolejce ile jest otwartych
 okienek oraz jakie numerki są aktualnie obsługiwane. Gdy następuja nasza kolej w aplikacji widzimy taką informację oraz
 do którego okienka powinniśmy się udać. Za obsługę kolejek odpowiada serwer.
+
 W moim zamierzeniu osoby obsługujące okienka miały by ze swojej strony w jakiejś formie możliwość obsługiwania kolejki.
 Napisałem prowizoryczną stronę internetową, gdzie można połączyć się z serwerem, otworzyć okienko w wybranym urzędzie i
 sprawie, przyjmywać kolejne numerki i zamknąć okienko. 
@@ -10,6 +11,7 @@ sprawie, przyjmywać kolejne numerki i zamknąć okienko.
 wysyłać wiadomości do serwera z terminalu przez takie narzędzia jak np. wscat). Jeśli chcielibyśmy nie odpalać którejś
 z tych rzeczy na jednej maszynie należy oczywiście w odpowiednich miejscach zmienić adres z "localhost" na odpowiedni
 adres ip.
+
 Ważna uwaga! Serwer ten jest przykładem serweru dla Urzędu Dzielnicy Ursynów, gdyż w moim zamyśle istniałby oddzielny
 serwer dla każdego urzędu. Aplikacja pozwala nam wybrać dowolny urząd jednak o ile nie jest to Urząd Dzielnicy Ursynów
 nie będziemy mogli w nim dołączyć do kolejki.
