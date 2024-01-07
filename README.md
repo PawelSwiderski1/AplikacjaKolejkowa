@@ -7,6 +7,7 @@ do którego okienka powinniśmy się udać. Za obsługę kolejek odpowiada serwe
 W moim zamierzeniu osoby obsługujące okienka miały by ze swojej strony w jakiejś formie możliwość obsługiwania kolejki.
 Napisałem prowizoryczną stronę internetową, gdzie można połączyć się z serwerem, otworzyć okienko w wybranym urzędzie i
 sprawie, przyjmywać kolejne numerki i zamknąć okienko. 
+
 Żeby przetestować aplikację należy odpalić aplikację (min. ios16), serwer oraz stronę do obsługi okienka (można również
 wysyłać wiadomości do serwera z terminalu przez takie narzędzia jak np. wscat). Jeśli chcielibyśmy nie odpalać którejś
 z tych rzeczy na jednej maszynie należy oczywiście w odpowiednich miejscach zmienić adres z "localhost" na odpowiedni
