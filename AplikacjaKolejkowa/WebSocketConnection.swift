@@ -38,7 +38,7 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
 
     func setupWebSocket() {
         // url used to connect to the server, change if your server has different ip or port
-        let urlString = "ws://192.168.1.107:4000"
+        let urlString = "ws://localhost:4000"
         guard let url = URL(string: urlString) else { return }
         socket = WebSocket(request: URLRequest(url: url))
         socket.delegate = self

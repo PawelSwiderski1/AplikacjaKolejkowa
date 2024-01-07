@@ -19,7 +19,6 @@
 		7A69E4FF2B12142C004B50FB /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E4FE2B12142C004B50FB /* HexColor.swift */; };
 		7A69E5032B1223B8004B50FB /* ChooseOfficeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E5022B1223B8004B50FB /* ChooseOfficeView.swift */; };
 		7A69E51E2B12B81C004B50FB /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E51D2B12B81C004B50FB /* SearchBar.swift */; };
-		7A69E5202B12BB98004B50FB /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E51F2B12BB98004B50FB /* StartView.swift */; };
 		7A69E5232B135B1C004B50FB /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 7A69E5222B135B1C004B50FB /* SocketIO */; };
 		7A69E5252B135B58004B50FB /* WebSocketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E5242B135B58004B50FB /* WebSocketConnection.swift */; };
 		7A7770432B1E838300F7BEFB /* GoToCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7770422B1E838300F7BEFB /* GoToCounterView.swift */; };
@@ -41,7 +40,6 @@
 		7A69E4FE2B12142C004B50FB /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		7A69E5022B1223B8004B50FB /* ChooseOfficeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseOfficeView.swift; sourceTree = "<group>"; };
 		7A69E51D2B12B81C004B50FB /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
-		7A69E51F2B12BB98004B50FB /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		7A69E5242B135B58004B50FB /* WebSocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnection.swift; sourceTree = "<group>"; };
 		7A7770422B1E838300F7BEFB /* GoToCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoToCounterView.swift; sourceTree = "<group>"; };
 		7A7C08132B1DFD4300D99C6B /* Lovelo-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lovelo-Black.ttf"; sourceTree = "<group>"; };
@@ -114,7 +112,6 @@
 		7ABF66532B1FB07100DB9CF9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7A69E51F2B12BB98004B50FB /* StartView.swift */,
 				7A69E5022B1223B8004B50FB /* ChooseOfficeView.swift */,
 				7A8FF11D2B1CAA9C00D3594A /* ChooseMatterView.swift */,
 				7A66F7EB2B49F05C006FDE3B /* JoinQueuePopupView.swift */,
@@ -222,7 +219,6 @@
 				7A69E5252B135B58004B50FB /* WebSocketConnection.swift in Sources */,
 				7A66F7E72B4880BD006FDE3B /* ListRowItem.swift in Sources */,
 				7A7770432B1E838300F7BEFB /* GoToCounterView.swift in Sources */,
-				7A69E5202B12BB98004B50FB /* StartView.swift in Sources */,
 				7A69E51E2B12B81C004B50FB /* SearchBar.swift in Sources */,
 				7A8FF11E2B1CAA9C00D3594A /* ChooseMatterView.swift in Sources */,
 				7A69E4F12B120772004B50FB /* InQueueView.swift in Sources */,
