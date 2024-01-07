@@ -14,6 +14,8 @@ struct StartView: View {
     @State private var hasSelectedIssue = false
 
     @StateObject private var webSocketManager = WebSocketManager()
+    
+    let waitTime = 5 // for now we assume one visit at the counter takes 5 min
 
     var body: some View {
         GeometryReader { geometry in
@@ -34,35 +36,35 @@ struct StartView: View {
                         .foregroundStyle(.black)
                         .font(.system(size: 20))
                         .padding()
-                    
-                    NavigationLink {
-                        ChooseOfficeView(
-                            searchText: $searchTextPlace,
-                            hasSelected: $hasSelectedPlace,
-                            offices: Array(webSocketManager.offices_info.keys.sorted { (office1: OfficeObject, office2: OfficeObject) -> Bool in
-                                return office1.office < office2.office
-                            })
-                        )
-                    } label : {
-                        SearchBar(text: $searchTextPlace)
-                            .padding(.bottom,20)
-                        
-                    }
-                    
+//                    
+//                    NavigationLink {
+//                        ChooseOfficeView(
+//                            searchText: $searchTextPlace,
+//                            hasSelected: $hasSelectedPlace,
+//                            offices: Array(webSocketManager.offices_info.keys.sorted { (office1: OfficeObject, office2: OfficeObject) -> Bool in
+//                                return office1.office < office2.office
+//                            })
+//                        )
+//                    } label : {
+//                        SearchBar(text: $searchTextPlace)
+//                            .padding(.bottom,20)
+//                        
+//                    }
+//                    
                     if hasSelectedPlace{
                         Text("Wybierz sprawę")
                             .foregroundStyle(.black)
                             .font(.system(size: 20))
                             .padding()
                         
-                        NavigationLink{
-                            ChooseMatterView(
-                                searchText: $searchTextIssue, hasSelected: $hasSelectedIssue, matters: webSocketManager.offices_info[webSocketManager.chosenOffice!]!)
-                        } label : {
-                            SearchBar(text: $searchTextIssue)
-                                .padding(.bottom, 20)
-                            
-                        }
+//                        NavigationLink{
+//                            ChooseMatterView(
+//                                searchText: $searchTextIssue, hasSelected: $hasSelectedIssue, matters: webSocketManager.offices_info[webSocketManager.chosenOffice!]!)
+//                        } label : {
+//                            SearchBar(text: $searchTextIssue)
+//                                .padding(.bottom, 20)
+//                            
+//                        }
                     }
                     
                     if hasSelectedPlace && hasSelectedIssue{
@@ -81,7 +83,7 @@ struct StartView: View {
                                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 5, trailing: 10))
                                 
                                 HStack{
-                                    Text("Przewidywany czas oczekiwania: 30 min")
+                                    Text("Przewidywany czas oczekiwania: \((webSocketManager.queue.ticketsInQueue.count + 1) * waitTime) min")
                                 }
                                 .foregroundColor(.black)
                                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))

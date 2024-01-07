@@ -7,8 +7,6 @@
 
 import Foundation
 import Starscream
-
-import Starscream
 import SwiftUI
 
 class WebSocketManager: WebSocketDelegate, ObservableObject {
@@ -40,7 +38,7 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
 
     func setupWebSocket() {
         // url used to connect to the server, change if your server has different ip or port
-        let urlString = "ws://192.168.1.106:3000"
+        let urlString = "ws://192.168.1.107:4000"
         guard let url = URL(string: urlString) else { return }
         socket = WebSocket(request: URLRequest(url: url))
         socket.delegate = self
@@ -124,8 +122,8 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
                         }
                         else if action == "update_counters" {
                             // Update the counters array
-                            if let countersJson = json["new_counters"] as? [[String: Any]] {
-                                queue.updateCounters(newCountersJSON: countersJson)
+                            if let countersJson = json["new_counters"] as? [String: [[String:Any]]] {
+                                queue.updateCounters(newCountersJSON: countersJson["counters"]!)
                             }
                         }
                         else if action == "added_number" {
@@ -147,7 +145,9 @@ class WebSocketManager: WebSocketDelegate, ObservableObject {
                         else if action == "visit_over" {
                             // When your visit at the counter is over
                             visitOver = false
-                            showPopup = false
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                self.showPopup = false
+                            }
                         }
                     }
                 }
@@ -201,8 +201,6 @@ struct Queue {
 
             if let countersArrayDict = dictionary["counters"] as? [[String: Any]] {
                 self.countersArray = countersArrayDict.compactMap { dict in
-                    print("got this: \(dict)")
-
                     guard let idNumber = dict["idNumber"] as? Int else {
                         return nil
                     }
@@ -229,7 +227,7 @@ extension PreviewProvider{
     static var PreviewWebSocketManager: WebSocketManager{
         let manager = WebSocketManager()
         manager.queue.ticketsInQueue = ["1","2","3","4","5","6","7","8","9"]
-        manager.queue.countersArray = [Counter(servedTicket: "1", idNumber: 3), Counter(servedTicket: "2", idNumber: 5)]
+        manager.queue.countersArray = [Counter(servedTicket: "1", idNumber: 3), Counter(servedTicket: "22", idNumber: 5)]
         manager.usersNumber = "7"
         return manager
     }

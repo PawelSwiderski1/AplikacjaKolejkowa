@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		7A153AA02B1DF77E0024A313 /* AmericanTypewriter.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 7A153A9F2B1DF77E0024A313 /* AmericanTypewriter.ttc */; };
+		7A66F7E72B4880BD006FDE3B /* ListRowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F7E62B4880BD006FDE3B /* ListRowItem.swift */; };
+		7A66F7EA2B49CCFA006FDE3B /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 7A66F7E92B49CCFA006FDE3B /* PopupView */; };
+		7A66F7EC2B49F05C006FDE3B /* JoinQueuePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F7EB2B49F05C006FDE3B /* JoinQueuePopupView.swift */; };
 		7A69E4EF2B120772004B50FB /* AplikacjaKolejkowaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E4EE2B120772004B50FB /* AplikacjaKolejkowaApp.swift */; };
 		7A69E4F12B120772004B50FB /* InQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69E4F02B120772004B50FB /* InQueueView.swift */; };
 		7A69E4F32B120776004B50FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A69E4F22B120776004B50FB /* Assets.xcassets */; };
@@ -27,6 +30,8 @@
 
 /* Begin PBXFileReference section */
 		7A153A9F2B1DF77E0024A313 /* AmericanTypewriter.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AmericanTypewriter.ttc; sourceTree = "<group>"; };
+		7A66F7E62B4880BD006FDE3B /* ListRowItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowItem.swift; sourceTree = "<group>"; };
+		7A66F7EB2B49F05C006FDE3B /* JoinQueuePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinQueuePopupView.swift; sourceTree = "<group>"; };
 		7A69E4EB2B120772004B50FB /* AplikacjaKolejkowa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AplikacjaKolejkowa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A69E4EE2B120772004B50FB /* AplikacjaKolejkowaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AplikacjaKolejkowaApp.swift; sourceTree = "<group>"; };
 		7A69E4F02B120772004B50FB /* InQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InQueueView.swift; sourceTree = "<group>"; };
@@ -50,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A66F7EA2B49CCFA006FDE3B /* PopupView in Frameworks */,
 				7A69E5232B135B1C004B50FB /* SocketIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -109,9 +115,10 @@
 			isa = PBXGroup;
 			children = (
 				7A69E51F2B12BB98004B50FB /* StartView.swift */,
-				7A69E4F02B120772004B50FB /* InQueueView.swift */,
 				7A69E5022B1223B8004B50FB /* ChooseOfficeView.swift */,
 				7A8FF11D2B1CAA9C00D3594A /* ChooseMatterView.swift */,
+				7A66F7EB2B49F05C006FDE3B /* JoinQueuePopupView.swift */,
+				7A69E4F02B120772004B50FB /* InQueueView.swift */,
 				7A7770422B1E838300F7BEFB /* GoToCounterView.swift */,
 			);
 			path = Views;
@@ -124,6 +131,7 @@
 				7A69E4FE2B12142C004B50FB /* HexColor.swift */,
 				7A69E51D2B12B81C004B50FB /* SearchBar.swift */,
 				7A8FF11B2B18C0DC00D3594A /* TicketShape.swift */,
+				7A66F7E62B4880BD006FDE3B /* ListRowItem.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -146,6 +154,7 @@
 			name = AplikacjaKolejkowa;
 			packageProductDependencies = (
 				7A69E5222B135B1C004B50FB /* SocketIO */,
+				7A66F7E92B49CCFA006FDE3B /* PopupView */,
 			);
 			productName = AplikacjaKolejkowa;
 			productReference = 7A69E4EB2B120772004B50FB /* AplikacjaKolejkowa.app */;
@@ -177,6 +186,7 @@
 			mainGroup = 7A69E4E22B120772004B50FB;
 			packageReferences = (
 				7A69E5212B135B1C004B50FB /* XCRemoteSwiftPackageReference "socket" */,
+				7A66F7E82B49CCFA006FDE3B /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 7A69E4EC2B120772004B50FB /* Products */;
 			projectDirPath = "";
@@ -208,7 +218,9 @@
 			files = (
 				7A69E4FD2B121405004B50FB /* ButtonStyle.swift in Sources */,
 				7A69E4FF2B12142C004B50FB /* HexColor.swift in Sources */,
+				7A66F7EC2B49F05C006FDE3B /* JoinQueuePopupView.swift in Sources */,
 				7A69E5252B135B58004B50FB /* WebSocketConnection.swift in Sources */,
+				7A66F7E72B4880BD006FDE3B /* ListRowItem.swift in Sources */,
 				7A7770432B1E838300F7BEFB /* GoToCounterView.swift in Sources */,
 				7A69E5202B12BB98004B50FB /* StartView.swift in Sources */,
 				7A69E51E2B12B81C004B50FB /* SearchBar.swift in Sources */,
@@ -428,6 +440,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7A66F7E82B49CCFA006FDE3B /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.3;
+			};
+		};
 		7A69E5212B135B1C004B50FB /* XCRemoteSwiftPackageReference "socket" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
@@ -439,6 +459,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7A66F7E92B49CCFA006FDE3B /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7A66F7E82B49CCFA006FDE3B /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
 		7A69E5222B135B1C004B50FB /* SocketIO */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7A69E5212B135B1C004B50FB /* XCRemoteSwiftPackageReference "socket" */;

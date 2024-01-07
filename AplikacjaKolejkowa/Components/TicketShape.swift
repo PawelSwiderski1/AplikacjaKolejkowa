@@ -11,14 +11,12 @@ struct TicketShape: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
 
-        // Draw the ticket shape with straight sides
         path.move(to: CGPoint(x: rect.minX, y: rect.minY))
         path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
         path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
         path.closeSubpath()
 
-        // Draw teeth on the bottom side
         let numberOfTeeth = 15
         let toothWidth = rect.width / CGFloat(numberOfTeeth)
 

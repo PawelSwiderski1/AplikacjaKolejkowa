@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import PopupView
 
 
 struct ChooseMatterView: View {
@@ -17,51 +17,120 @@ struct ChooseMatterView: View {
     
     var btnBack : some View { Button(action: {
         self.presentation.wrappedValue.dismiss()
-           }) {
-               HStack(spacing:3) {
-               Image(systemName: "chevron.backward") // set image here
-                   .aspectRatio(contentMode: .fit)
-                   .foregroundColor(.blue)
-                   Text("Wróć")
-                       .foregroundColor(.blue)
-               }
-           }
-       }
+    }) {
+        HStack(spacing:3) {
+            Image(systemName: "chevron.backward")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 20)
+                .foregroundColor(.white)
+            
+        }
+        }
+    }
     
-    @Binding var searchText: String
-    @Binding var hasSelected: Bool
+    @State var searchText: String = ""
+    @State var showPopup: Bool = false
     
-    let matters: [MatterObject]
+    var office: OfficeObject
     
+    var matters : [MatterObject] {
+        //   return [MatterObject(matter: "Punkt podawczy – Architektura, Infrastruktura"), MatterObject(matter: "Ochrona Środowiska, Zezwolenia Alkoholowe"), MatterObject(matter: "Świadczenia rodzinne, alimentacyjne"), MatterObject(matter: "Sprawy lokalowe - pomoc mieszkaniowa"), MatterObject(matter: "Warszawski bon żłobkowy"), MatterObject(matter: "Dodatki mieszkaniowe")]  // FOR PREVIEW
+        return webSocketManager.offices_info[office]!
+    }
     var body: some View {
         
         VStack{
-            SearchBar(text: $searchText)
+            VStack{
+                HStack(){
+                    
+                    btnBack
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading,40)
+                        .padding(.top,20)
+                    
+                    
+                    Text("SPRAWY")
+                        .font(.custom("Lovelo-Black",size: 25))
+                        .foregroundStyle(.white)
+                        .padding(.top,20)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Text("")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    
+                }
+                
+                Spacer()
+                SearchBar(text: $searchText)
+                    .padding()
+            }
+            .frame(height: 100)
+            .background(Color(hex: "#5A7D9A"))
+            
+            Text(office.office)
+                .foregroundStyle(.black)
+                .font(.custom("Lovelo-Black",size: 20))
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.horizontal, 20)
+                .padding(.top, 10)
+            Spacer()
             
             List(matters.filter({ searchText.isEmpty ? true : $0.matter.contains(searchText) })) { item in
-                Text(item.matter)
-                    .foregroundColor(.black)
-                    .listRowBackground(Color(hex:"FFFFFF"))
+                ListRowItem(displayedText: item.matter)
+                    .foregroundColor(Color(hex:"000000"))
+                    .listRowBackground(Color(hex:"#F1FBFF"))
+                    .listRowSeparator(.hidden)
+                
                     .onTapGesture {
                         webSocketManager.chosenMatter = item
+                        
                         webSocketManager.sendGetQueueInfoMessage(matter: item.matter)
-                        searchText = item.matter
-                        hasSelected = true
-                        self.presentation.wrappedValue.dismiss()
+                        showPopup = true
                     }
             }
-            .scrollContentBackground(.hidden)
-
+            .listStyle(PlainListStyle())
+            .background(Color(hex: "#F1FBFF"))
+            
+            
+            Spacer()
+            
+            HStack{
+                Text("Wybierz sprawę")
+                    .font(.custom("Lovelo-Black",size: 20))
+                    .foregroundStyle(.white)
+                    .padding(.top,20)
+            }
+            .frame(height:40)
+            .frame(maxWidth:.infinity)
+            .background(Color(hex: "#5A7D9A"))
+            
         }
+        .navigationDestination(isPresented: $webSocketManager.visitOver) { InQueueView()}
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: btnBack)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
-        .background(Color(hex: "F1f8f8"))
+        .background(Color(hex: "#F1FBFF"))
+        .popup(isPresented: $showPopup){
+            JoinQueuePopupView(showPopup: $showPopup, matter: webSocketManager.chosenMatter?.matter ?? "")
+        } customize: {
+            $0
+                .type(.floater())
+                .position(.center)
+                .animation(.spring())
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.5))
+        }
     }
 }
 
-#Preview {
-    ChooseOfficeView(searchText: .constant(""), hasSelected: .constant(false),offices: [OfficeObject(office: "office: Urząd dzielnicy Ursynów"), OfficeObject(office: "office: Poczta, ul. Puławska 456"), OfficeObject(office: "office: Poczta, ul. Pelikanów 46"), OfficeObject(office: "office: Centrum kultury Ursynów"), OfficeObject(office: "office: Urząd dzielnicy Ursynów"), OfficeObject(office: "office: Poczta, ul. Puławska 456"), OfficeObject(office: "office: Poczta, ul. Pelikanów 46"), OfficeObject(office: "office: Centrum kultury Ursynów"), OfficeObject(office: "office: Szpital Onkologiczny Południowy"), OfficeObject(office: "office: Urząd dzielnicy Ursynów"), OfficeObject(office: "office: Poczta, ul. Puławska 456"), OfficeObject(office: "office: Poczta, ul. Pelikanów 46"), OfficeObject(office: "office: Centrum kultury Ursynów"), OfficeObject(office: "office: Szpital Onkologiczny Południowy"), OfficeObject(office: "office: Urząd dzielnicy Ursynów"), OfficeObject(office: "office: Poczta, ul. Puławska 456"), OfficeObject(office: "office: Poczta, ul. Pelikanów 46"), OfficeObject(office: "office: Centrum kultury Ursynów"), OfficeObject(office: "office: Szpital Onkologiczny Południowy")]
-)
-}
+
+//#Preview {
+//    NavigationStack{
+//        ChooseMatterView(office: OfficeObject(office: "Urząd Dzielnicy Ursynów"))
+//            .environmentObject(WebSocketManager())
+//    }
+//
+//}
+
+
+
+

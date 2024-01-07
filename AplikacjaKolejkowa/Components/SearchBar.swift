@@ -39,7 +39,7 @@ struct SearchBar: View {
                         }
                     }
                 )
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 20)
 
             if isEditing {
                 Button(action: {
@@ -55,7 +55,7 @@ struct SearchBar: View {
             }
         }
         .frame(width: UIScreen.main.bounds.width)
-        .background(Color(hex: "#f1f8f8"))
+        //.background(Color(hex: "#f1f8f8"))
 
     }
 }

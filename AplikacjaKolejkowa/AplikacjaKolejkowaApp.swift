@@ -11,7 +11,7 @@ import SwiftUI
 struct AplikacjaKolejkowaApp: App {
     var body: some Scene {
         WindowGroup {
-            StartView()
+            ChooseOfficeView()
                //.environmentObject(WebSocketManager())
         }
     }
