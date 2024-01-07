@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Interface</title>
+    <style>
+        /* Add your CSS styling here */
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainInterface">
+        <h1>WebSocket Interface</h1>
+        <div>
+            <label for="officeSelect">Choose an Office:</label>
+            <select id="officeSelect">
+                <option value="">Select an office...</option>
+                <!-- Options will be added dynamically here -->
+            </select>
+        </div>
+        <div>
+            <label for="matterSelect">Choose a Matter:</label>
+            <select id="matterSelect">
+                <option value="">Select a matter...</option>
+                <!-- Matter options will be added dynamically here -->
+            </select>
+        </div>
+         <div>
+            <label for="counterId">Counter ID:</label>
+            <input type="text" id="counterId" placeholder="Enter Counter ID">
+        </div>
+        <button id="toggleConnection">Connect to WebSocket</button>
+        <button id="openCounter">Open Counter</button>
+
+    </div>
+
+     <!-- Counter Management Section (Initially Hidden) -->
+    <div class="container" id="counterManagement" style="display: none;">
+        <h1>Counter Management</h1>
+        <p id="selectedOffice">Office: </p>
+        <p id="selectedMatter">Matter: </p>
+        <p id="currentNumber">Current Served Number: None</p>
+        <button id="closeCounter">Close Counter</button>
+        <button id="serveNextNumber">Serve Next Number</button>
+    </div>
+
+    <script>
+        // Adjust this WebSocket URL according to your setup
+        const webSocketUrl = 'ws://localhost:4000';
+        let websocket = null;
+        let isConnected = false; // To track connection status
+        const toggleConnectionBtn = document.getElementById('toggleConnection');
+
+        let officesData = {}; // To store the offices data
+
+        let myMatter;
+        let currentServedNumber = null; // To keep track of the current served number
+        let myCounterId;
+
+        document.getElementById('toggleConnection').addEventListener('click', function() {
+            if (!isConnected) {
+                websocket = new WebSocket(webSocketUrl);
+
+                websocket.onopen = function(event) {
+                    console.log('Connected to WebSocket');
+                    isConnected = true;
+                    toggleConnectionBtn.textContent = 'Disconnect';
+                };
+
+                websocket.onmessage = function(event) {
+                    console.log('Message from server:', event.data);
+
+                    // Parse the JSON message from the server
+                    const data = JSON.parse(event.data);
+
+                    if (data.action === 'sent_offices_info') {
+                        officesData = data.offices_info; // Store the offices data
+
+                        // Populate the dropdown with offices
+                        const officeSelect = document.getElementById('officeSelect');
+                        const offices = data.offices_info;
+                        officeSelect.innerHTML = '<option value="">Select an office...</option>'; // Clear existing options
+                        for (const office in offices) {
+                            const option = document.createElement('option');
+                            option.value = office;
+                            option.textContent = office;
+                            officeSelect.appendChild(option);
+                        }
+                    }
+
+                    if (data.action === 'sent_queue_info') {
+                        const counters = data.queue.counters;
+                        const myCounter = counters.find(counter => counter.idNumber === myCounterId);
+
+                        if (myCounter && myCounter.servedTicket !== null) {
+                            currentServedNumber = myCounter.servedTicket;
+                            console.log('Current Served Number:', currentServedNumber);
+                            // Optionally, update this information on the webpage
+                            document.getElementById('currentNumber').textContent = 'Current Number: ' + currentServedNumber;
+                        } else {
+                            console.log('No current served number for this counter.');
+                            // Update to show no current number is being served
+                            document.getElementById('currentNumber').textContent = 'Current Number: None';
+                        }
+                    }
+                };
+
+                websocket.onclose = function(event) {
+                    console.log('Disconnected from WebSocket');
+                    isConnected = false;
+                    toggleConnectionBtn.textContent = 'Connect';
+                };
+            } else {
+                     // Disconnect from WebSocket
+                if (websocket) {
+                    websocket.close();
+                }
+                isConnected = false;
+                document.getElementById('toggleConnection').textContent = 'Connect'; // Change button text to Connect
+            }
+        });
+
+
+
+        document.getElementById('officeSelect').addEventListener('change', function() {
+            const selectedOffice = this.value;
+            const selectedMatter = document.getElementById('matterSelect');
+
+            matterSelect.innerHTML = '<option value="">Select a matter...</option>'; // Clear existing options
+
+            if (selectedOffice && officesData[selectedOffice]) {
+                officesData[selectedOffice].forEach(matter => {
+                    const option = document.createElement('option');
+                    option.value = matter;
+                    option.textContent = matter;
+                    matterSelect.appendChild(option);
+                });
+            }
+        });
+
+         document.getElementById('openCounter').addEventListener('click', function() {
+            const selectedMatter = document.getElementById('matterSelect').value;
+            let counterId = document.getElementById('counterId').value;
+            counterId = parseInt(counterId, 10);
+
+            if (websocket && websocket.readyState === WebSocket.OPEN && selectedMatter && counterId) {
+                myCounterId = counterId;
+                myMatter = selectedMatter;
+                const message = {
+                    action: 'open_counter',
+                    matter: selectedMatter,
+                    id_number: counterId,
+                    client_type: 'operator' // Assuming 'operator' is the client type for this action
+                };
+                websocket.send(JSON.stringify(message));
+                console.log('Open Counter message sent:', message);
+
+                document.getElementById('mainInterface').style.display = 'none';
+                document.getElementById('counterManagement').style.display = 'block';
+
+                const selectedOffice = document.getElementById('officeSelect').options[document.getElementById('officeSelect').selectedIndex].text;
+                document.getElementById('selectedOffice').textContent = 'Office: ' + selectedOffice;
+                document.getElementById('selectedMatter').textContent = 'Matter: ' + selectedMatter;
+
+            } else {
+                console.log('WebSocket is not connected, or matter/counter ID is not selected');
+            }
+        });
+
+        document.getElementById('closeCounter').addEventListener('click', function() {
+            if (websocket && websocket.readyState === WebSocket.OPEN) {
+                const message = {
+                    action: 'close_counter',
+                    matter: myMatter,
+                    id_number: myCounterId,
+                    client_type: 'operator'
+                };
+                websocket.send(JSON.stringify(message));
+                console.log('Close counter message sent:', message);
+
+                document.getElementById('mainInterface').style.display = 'block';
+                document.getElementById('counterManagement').style.display = 'none';
+            } else {
+                console.log('WebSocket is not connected');
+            }
+        });
+
+        document.getElementById('serveNextNumber').addEventListener('click', function() {
+            if (websocket && websocket.readyState === WebSocket.OPEN) {
+                const message = {
+                    action: 'serve_next_number',
+                    matter: myMatter,
+                    id_number: myCounterId,
+                    client_type: 'operator'
+                };
+                websocket.send(JSON.stringify(message));
+                console.log('Serve Next Number message sent:', message);
+            } else {
+                console.log('WebSocket is not connected');
+            }
+        });
+
+
+
+    </script>
+</body>
+</html>
